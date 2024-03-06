@@ -1,0 +1,7 @@
+.MuiTabs-indicator {
+    background-color: #acb0c5;
+}
+
+.Mui-selected {
+    color: #acb0c5 !important;
+}

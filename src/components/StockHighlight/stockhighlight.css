@@ -1,0 +1,39 @@
+.ticker {
+    font-weight: 500;
+    font-size: 25px;
+}
+
+.company-name {
+    font-size: 17px;
+    color: #757373;
+    font-family: 'Roboto';
+}
+
+.exchange {
+    font-weight: 300;
+    font-size: 12px;
+}
+
+.buy {
+    font-size: 12px;
+}
+
+.stock-price .price {
+    font-size: 33px;
+    font-weight: 500;
+    height: 41px;
+}
+
+.stock-price .change {
+    font-size: 19px;
+}
+
+.stock-price .timestamp {
+    font-size: 10px;
+    font-weight: 300;
+}
+
+.market-state {
+    font-weight: bold;
+    font-size: 11px;
+}
