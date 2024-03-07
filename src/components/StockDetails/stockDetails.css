@@ -1,7 +1,27 @@
 .MuiTabs-indicator {
-    background-color: #acb0c5;
+    background-color: #707cb9 !important;
+    /* background-color: red; */
 }
 
 .Mui-selected {
-    color: #acb0c5 !important;
+    color: #707cb9 !important;
+}
+
+.news-card {
+    /* background-color: rgba(128, 128, 128, 0.842); */
+}
+
+.card-body .title{
+    max-height: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-image {
+    width: 90px;
+}
+.news-image img{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
 }
