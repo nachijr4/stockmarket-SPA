@@ -3,6 +3,7 @@ import MessageComponent from './Message/MessageComponent'
 import StockHighlight from './StockHighlight/StockHighlight'
 import '../styles/datacontainer.css'
 import StockTabs from './StockDetails/StockTabs'
+import StockModal from './Modals/StockModal'
 
 
 const DataContainer:React.FC = () => {
@@ -12,6 +13,7 @@ const DataContainer:React.FC = () => {
             
             <StockTabs />
 
+            <StockModal />
             {/* <MessageComponent message="No data found. Please enter a valid ticker" type="danger" /> */}
         </div>
     )

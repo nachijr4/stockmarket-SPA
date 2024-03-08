@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
+import TopNewsModal from '../Modals/NewsModal';
 
 interface CardData {
     body: string
@@ -26,16 +27,19 @@ const MyCard: React.FC<CardData> = (data: CardData) => {
 
 const TopNews: React.FC = () => {
     var cards:React.ReactNode[] = [];
-    for(var i = 0; i < 10; i++) {
+    for(var i = 0; i < 5; i++) {
         cards.push(MyCard({key: i, body: "This is a sample card"}))
     }
 
     return (
-        <Container className="d-flex">
-            <Row>
-                {cards}
-            </Row>
-        </Container>
+        <>
+            <Container className="d-flex">
+                <Row className="flex-grow-1">
+                    {cards}
+                </Row>
+            </Container>
+            <TopNewsModal />
+        </>
     )
 }
 

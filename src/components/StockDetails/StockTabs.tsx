@@ -8,6 +8,7 @@ import './stockDetails.css'
 import SummaryComponent from './Summary/Summary';
 import TopNews from './TopNews';
 import Charts from './Charts';
+import Insights from './Insights/Insights';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -43,7 +44,7 @@ function a11yProps(index: number) {
 }
 
 export default function StockTabs() {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(3);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -77,7 +78,7 @@ export default function StockTabs() {
             <Charts />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-            Item Four
+            <Insights />
         </CustomTabPanel>
         </Box>
     </Container>

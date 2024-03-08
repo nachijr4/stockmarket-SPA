@@ -19,7 +19,7 @@ const SummaryComponent:React.FC = () => {
                     <br />
                     <div className=""><span className="fw-bold  text-end">IPO Start Date:&nbsp; &nbsp;</span> <span className="text-start ">1980-12-12</span></div>
                     <div className=""><span className="fw-bold  text-end">Industry:&nbsp; &nbsp;</span> <span className="text-start ">Technology</span></div>
-                    <div className=""><span className="fw-bold  text-end">Webpage:&nbsp; &nbsp;</span> <span className="text-start "><a href="https://www.apple.com">https://www.apple.com</a></span></div>
+                    <div className=""><span className="fw-bold  text-end">Webpage:&nbsp; &nbsp;</span> <span className="text-start "><a href="https://www.apple.com" target="_blank">https://www.apple.com</a></span></div>
                     <div className="text-center fw-bold col-12">
                             Company Peers: 
                     </div>

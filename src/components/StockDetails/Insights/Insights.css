@@ -1,0 +1,14 @@
+.sentiment div {
+    font-weight: 400;
+    font-size: 19px;
+    color: #565656;
+}
+
+.sentiment table {
+    font-size: 12px;
+}
+
+.sentiment table tr {
+    border-bottom: 1px #cccccc solid;
+    height: 30px;
+}
