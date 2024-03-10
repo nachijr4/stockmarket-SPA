@@ -5,16 +5,17 @@ import './styles/home.css';
 import AppNavbar from './components/Navbar';
 import Autocomplete from './components/AutoComplete/AutoComplete'
 import DataContainer from './components/DataContainer'
+import SearchPage from './components/SearchPage';
+import WatchlistPage from './components/WatchlistPage';
+import PortfolioPage from './components/PortfolioPage';
 
 function App() {
   return (
     <>
         <AppNavbar></AppNavbar>
-        <div className="App">
-            <h3 className="app-title">STOCK SEARCH</h3>
-        </div>
-        <Autocomplete></Autocomplete>
-        <DataContainer />
+        {/* <SearchPage></SearchPage> */}
+        {/* <WatchlistPage /> */}
+        <PortfolioPage />
     </>
   );
 }

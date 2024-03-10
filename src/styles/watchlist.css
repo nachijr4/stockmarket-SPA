@@ -1,0 +1,28 @@
+.watchlist-companyname {
+    font-weight: 400;
+    font-size: 21px;
+}
+
+.remove-watchlist {
+    width: fit-content;
+    border: none;
+    background-color: white;
+}
+
+.watchlist-price {
+    font-size: 20px;
+    font-family: arimo;
+    font-weight: 600;
+}
+
+.watchlist-change {
+    font-size: 14px;
+    font-family: 'Arimo';
+    font-weight: 600;
+}
+
+.watchlist-title {
+    font-size: 25px;
+    font-family: 'Roboto';
+    font-weight: 400;
+}

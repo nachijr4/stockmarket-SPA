@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Col, Container, Row, Button, Image } from 'react-bootstrap';
 import Star from '../../images/star.svg'
 import './stockhighlight.css'
-import CaratComponent from '../utilities/CaratComponent';
+import SVGComponent from '../utilities/SVGComponent';
 import StockModal from '../Modals/StockModal'
 
 const StockHighlight: React.FC = () => {
@@ -31,7 +31,7 @@ const StockHighlight: React.FC = () => {
                         <div className="stock-price">
                             <div className="text-success price"><span>180.85</span></div>
                             <div className="change d-flex align-items-center justify-content-center text-success">
-                                <CaratComponent className="" caratUp />
+                                <SVGComponent className="" symbol="caratUp" />
                                 <span className="ml-1">1.83 (1.00%)</span>
                             </div>
                             <div className="timestamp">2024-03-04 10.53.22</div>

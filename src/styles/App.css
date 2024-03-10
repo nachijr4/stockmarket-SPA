@@ -1,5 +1,5 @@
-html {
-    font-family: "Roboto", sans-serif !important;
+body {
+    font-family: "Roboto", "sans-serif" !important;
 }
 
 .ml-1 {
@@ -36,6 +36,14 @@ html {
 
 .pr-3 {
     padding-right: 1rem;
+}
+
+.fw-500 {
+    font-weight: 500 !important;
+}
+
+.ff-arimo {
+    font-family: "Arimo" !important;
 }
 
 .App {

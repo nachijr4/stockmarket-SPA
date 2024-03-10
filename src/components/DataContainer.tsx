@@ -12,8 +12,6 @@ const DataContainer:React.FC = () => {
             <StockHighlight />
             
             <StockTabs />
-
-            <StockModal />
             {/* <MessageComponent message="No data found. Please enter a valid ticker" type="danger" /> */}
         </div>
     )
