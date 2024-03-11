@@ -4,6 +4,8 @@ import "./autocomplete.css"
 import search from "../../images/search.svg"
 import reset from "../../images/x.svg"
 import Suggestions from "./Suggestions"
+import { fetchStockData} from '../../store/StockSlice'
+import { useAppDispatch } from '../../store/hooks';
 
 interface Suggestions {
     "description": string,
@@ -15,6 +17,7 @@ interface Suggestions {
 var timeoutId: NodeJS.Timeout;
 
 const Autocomplete: React.FC = () => {
+    const dispatch = useAppDispatch();
     const [inputValue, setInputValue] = useState<string>('');
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [suggestions, setSuggestions] = useState<Suggestions[]>([]);
@@ -71,6 +74,7 @@ const Autocomplete: React.FC = () => {
     const onSuggestionClick = (stockTicker: string) => {
         setInputValue(stockTicker)
         setSuggestionsFocused(false)
+        dispatch(fetchStockData(stockTicker))
     }
 
     return (
