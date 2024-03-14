@@ -1,37 +1,44 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock';
+import { useAppSelector } from '../../../store/hooks';
 
 const RecommendationChart: React.FC = () => {
-    const options = {
+
+    const data = useAppSelector(state => state.stock.data.recommendationChart)
+    var options
+    if(data)
+     options = {
         chart: {
-            type: 'column'
+            type: 'column',
+            backgroundColor: "#f4f1f1",
+            // height: (9 / 16 * 100) + '%',
+            spacingBottom: 50
+        },
+        credits: {
+            enabled: false
         },
         title: {
-            text: 'Major trophies for some English teams',
-            align: 'left'
+            text: 'Recommendation Trends',
+            align: 'center'
         },
         xAxis: {
-            categories: ['Arsenal', 'Chelsea', 'Liverpool', 'Manchester United']
+            categories: data['dates']
         },
         yAxis: {
             min: 0,
             title: {
-                text: 'Count trophies'
+                text: '#Analysis'
             },
             stackLabels: {
                 enabled: true
             }
         },
         legend: {
-            align: 'left',
-            x: 70,
-            verticalAlign: 'top',
-            y: 70,
+            y: 40,
+            align: "center",
+            verticalAlign: 'bottom',
             floating: true,
-            backgroundColor: 'white',
-            borderColor: '#CCC',
-            borderWidth: 1,
             shadow: false
         },
         tooltip: {
@@ -46,16 +53,29 @@ const RecommendationChart: React.FC = () => {
                 }
             }
         },
+        
         series: [{
-            name: 'BPL',
-            data: [3, 5, 1, 13]
+            name: 'StrongBuy',
+            data: data['strongBuy'],
+            color: "#1a6536"
         }, {
-            name: 'FA Cup',
-            data: [14, 8, 8, 12]
+            name: 'Buy',
+            data: data['buy'],
+            color: "#1a9c46"
         }, {
-            name: 'CL',
-            data: [0, 2, 6, 3]
-        }]
+            name: 'Hold',
+            data: data['hold'],
+            color: "#8e6a1a"
+        }, {
+            name: 'Sell',
+            data: data['sell'],
+            color: "#9f3a3b"
+        }, {
+            name: 'StrongSell',
+            data: data['strongSell'],
+            color: "#552122"
+        }
+    ]
     }
 
     return (

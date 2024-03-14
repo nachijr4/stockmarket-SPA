@@ -1,68 +1,73 @@
 import React from 'react'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock';
+// import Highcharts from 'highcharts';
+import { useAppSelector } from '../../../store/hooks';
+import { toFixedIfNecessary } from '../../../utilities';
 
 const EPSChart:React.FC = () => {
-    const options = {
-        chart: {
-            type: 'spline',
-            inverted: true
-        },
-        title: {
-            text: 'Atmosphere Temperature by Altitude',
-            align: 'left'
-        },
-        subtitle: {
-            text: 'According to the Standard Atmosphere Model',
-            align: 'left'
-        },
-        xAxis: {
-            reversed: false,
+
+    const data = useAppSelector(state => state.stock.data.companyEarningsChart)
+    const surprise: any = {}
+
+    var options
+
+    if(data) {
+
+        data.years.forEach((value, index) => {
+            surprise[value] = toFixedIfNecessary(data.actual[index][1] - data.estimate[index][1], 4)
+        })
+
+        options = {
+            chart: {
+                type: 'spline',
+                backgroundColor: "#f4f1f1"
+            },
+            credits: {
+                enabled: false
+            },
             title: {
-                enabled: true,
-                text: 'Altitude'
+                text: 'Historical EPS Surprises',
+                align: 'center'
             },
-            labels: {
-                format: '{value} km'
+            xAxis: {
+                reversed: false,
+                minPadding: 0.15,
+                maxPadding: 0.15,
+                endOnTick: false,
+                type: 'datetime',
+                tickPositions: data.years,
+                labels: {
+                    formatter: function (this: Highcharts.AxisLabelsFormatterContextObject) {
+                        var date = Highcharts.dateFormat('%Y-%m-%d', this.value as number)
+                        return `${date} <br /> Surprise: ${surprise[this.value]}`
+                    }
+                }       
             },
-            accessibility: {
-                rangeDescription: 'Range: 0 to 80 km.'
-            },
-            maxPadding: 0.05,
-            showLastLabel: true
-        },
-        yAxis: {
-            title: {
-                text: 'Temperature'
-            },
-            labels: {
-                format: '{value}°'
-            },
-            accessibility: {
-                rangeDescription: 'Range: -90°C to 20°C.'
-            },
-            lineWidth: 2
-        },
-        legend: {
-            enabled: false
-        },
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br/>',
-            pointFormat: '{point.x} km: {point.y}°C'
-        },
-        plotOptions: {
-            spline: {
-                marker: {
-                    enable: false
+            yAxis: {
+                title: {
+                    text: 'Quaterly EPS'
                 }
-            }
-        },
-        series: [{
-            name: 'Temperature',
-            data: [[0, 15], [10, -50], [20, -56.5], [30, -46.5], [40, -22.1],
-                [50, -2.5], [60, -27.7], [70, -55.7], [80, -76.5]]
-    
-        }]
+            },
+            legend: {
+                enabled: true
+            },
+            plotOptions: {
+                spline: {
+                    marker: {
+                        enable: false
+                    }
+                }
+            },
+            series: [{
+                name: 'Actual',
+                data: data.actual
+            },
+            {
+                name: 'Estimate',
+                data: data.estimate
+            }]
+        }
     }
 
     return (

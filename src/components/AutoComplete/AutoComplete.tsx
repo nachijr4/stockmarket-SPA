@@ -4,7 +4,7 @@ import "./autocomplete.css"
 import search from "../../images/search.svg"
 import reset from "../../images/x.svg"
 import Suggestions from "./Suggestions"
-import { fetchStockData} from '../../store/StockSlice'
+import { fetchStockData, stockActions} from '../../store/StockSlice'
 import { useAppDispatch } from '../../store/hooks';
 
 interface Suggestions {
@@ -77,6 +77,17 @@ const Autocomplete: React.FC = () => {
         dispatch(fetchStockData(stockTicker))
     }
 
+    const onResetClick = () => {
+        setInputValue("")
+        setSuggestions([])
+        dispatch(stockActions.resetStockState())
+    }
+
+    const handleKeyPress = (e: any) => {
+        if(e.key === 'Enter')
+            onSuggestionClick(inputValue)
+    }
+
     return (
         <div className="col-lg-3 autocomplete">
                 <input
@@ -85,6 +96,7 @@ const Autocomplete: React.FC = () => {
                     onChange={onInputChange}
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
+                    onKeyDown={handleKeyPress}
                     placeholder="Enter stock ticker symbol"
                     className="search-input"
                 />
@@ -99,8 +111,8 @@ const Autocomplete: React.FC = () => {
                         onSuggestionsBlur={onSuggestionsBlur} /> 
                         : null
                 }
-            <div className="d-inline-block search-btn"><img src={search}></img></div>
-            <div className="d-inline-block reset-btn"><img src={reset}></img></div>
+            <div className="d-inline-block search-btn" onClick={() => onSuggestionClick(inputValue)}><img src={search} ></img></div>
+            <div className="d-inline-block reset-btn" onClick={() => onResetClick()}><img src={reset}></img></div>
         </div>
     );
 };

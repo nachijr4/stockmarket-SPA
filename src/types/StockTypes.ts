@@ -25,13 +25,16 @@ export interface HistoricData {
 }
 
 export interface Quote {
-    o: string,
-    h: string,
-    l: string,
-    c: string,
-    pc: string,
-    d: string,
-    dp: string
+    o: number,
+    h: number,
+    l: number,
+    c: number,
+    pc: number,
+    d: number,
+    dp: number,
+    t: number,
+    ct: number,
+    marketClosed: boolean
 }
 
 export interface LatestNews {
@@ -48,12 +51,21 @@ export interface LatestNews {
 
 export interface Recommendation {
     symbol: string,
-    buy: string,
-    hold: string,
+    buy: number,
+    hold: number,
     period: string,
-    sell: string,
-    strongBuy: string,
-    stringSell: string
+    sell: number,
+    strongBuy: number,
+    strongSell: number
+}
+
+export interface RecommendationChart {
+    dates: string[], 
+    strongBuy: number[], 
+    strongSell: number[], 
+    buy: number[], 
+    sell: number[], 
+    hold: number[]
 }
 
 export interface CompanySentiment {
@@ -67,8 +79,8 @@ export interface CompanySentiment {
 export type CompanyPeer = string
 
 export interface CompanyEarnings {
-    actual: string,
-    estimate: string,
+    actual: number,
+    estimate: number,
     surprise: string,
     surprisePercent: string,
     period: string,
@@ -76,3 +88,11 @@ export interface CompanyEarnings {
     year: number,
     quater: number
 }
+
+export interface CompanyEarningsChart {
+    years: number[],
+    actual: [number, number][],
+    estimate: [number, number][]
+}
+
+export type HourlyPriceChart = [number, number]
