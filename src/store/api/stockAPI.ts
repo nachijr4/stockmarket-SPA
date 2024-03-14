@@ -1,3 +1,4 @@
+import { current } from '@reduxjs/toolkit';
 import * as StockTypes from '../../types/StockTypes'
 import { isMarketClosed } from '../../utilities';
 
@@ -5,10 +6,9 @@ const stockBaseUrl = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_U
 
 const validateResponse = (response: any) => {
     if (!response.ok) {
-      // If the response is not ok, throw an error
       throw new Error('Network response was not ok');
     }
-    return response.json(); // Parse the response body as JSON
+    return response.json();
   }
 
 export const getCompanyProfile = (symbol: string): Promise<StockTypes.CompanyProfile> => {
@@ -20,7 +20,7 @@ export const getCompanyProfile = (symbol: string): Promise<StockTypes.CompanyPro
       });
 }
 
-export const getHistoricData = (symbol: string, hourly: boolean, quote?: StockTypes.Quote): Promise<StockTypes.HistoricData[]> => {
+export const getPriceData = (symbol: string, hourly: boolean, quote?: StockTypes.Quote): Promise<StockTypes.HistoricData[]> => {
     var timespan: string = "hour"
     var currentDate = new Date();
 
@@ -33,11 +33,12 @@ export const getHistoricData = (symbol: string, hourly: boolean, quote?: StockTy
     const toDate = `${year}-${month}-${day}`;
 
     if(!hourly) {
-        currentDate.setMonth(currentDate.getMonth() - 6);
+        currentDate.setFullYear(currentDate.getFullYear() - 2);
         timespan = "day"
+    } else {
+        currentDate.setDate(currentDate.getDate() - 1);
     }
 
-    currentDate.setDate(currentDate.getDate() - 1);
 
 
     year = currentDate.getFullYear();

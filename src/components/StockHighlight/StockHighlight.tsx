@@ -8,20 +8,37 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import DynamicStockPrice from './DynamicStockPrice';
 import { formatDate } from '../../utilities';
 import { fetchQuoteData, fetchStockData } from '../../store/StockSlice';
+import { addWatchlistAction, checkWatchlistedAction, removeWatchlistAction } from '../../store/watchlistSlice';
+import { isStockPurchasedAction } from '../../store/PortfolioSlice';
 
 
 const StockHighlight: React.FC = () => {
     const dispatch = useAppDispatch()
     const companyProfile = useAppSelector(state => state.stock.data.companyProfile)
     const quote = useAppSelector(state => state.stock.data.quote)
+    const isWatchlisted = useAppSelector(state => state.stock.isWatchlisted)
+    const portfolio = useAppSelector(state => state.stock.portfolio)
     var marketTime = new Date(), marketOpen;
     if(quote !== undefined) {
     marketTime = new Date(quote.t * 1000)
     const currentDate = new Date()
     marketOpen = (currentDate.getTime() - marketTime.getTime()) / 1000 > 300? false : true
     }
+
+    const toggleWatchlist = () => {
+        if(companyProfile) {
+            if(!isWatchlisted)
+                dispatch(addWatchlistAction({symbol: companyProfile?.ticker, companyName:companyProfile?.name}))
+            else
+                dispatch(removeWatchlistAction(companyProfile?.ticker))
+        }
+    }
     useEffect(() => {
-        console.log("Interval has been set")
+        if(companyProfile?.ticker) {
+            dispatch(checkWatchlistedAction(companyProfile.ticker))
+            dispatch(isStockPurchasedAction(companyProfile.ticker))
+        }
+
         const intervalId = setInterval(() => dispatch(fetchQuoteData("")), 15 * 1000)
 
         return () => clearInterval(intervalId)
@@ -34,13 +51,18 @@ const StockHighlight: React.FC = () => {
                     <Col md={4} className='text-center'>
                         <div className='d-flex align-items-center justify-content-center ticker'>
                             <span>{companyProfile?.ticker}</span> 
-                            <img src={Star} className="ml-2 pb-1"/>
+                            <div className="d-flex ml-2 pb-1" onClick={() => toggleWatchlist()}>
+                                <SVGComponent  symbol={isWatchlisted? "starFill":"star"}/>
+                            </div>
                         </div>
                         <div className="company-name">{companyProfile?.name}</div>
                         <div className='exchange'>{companyProfile?.exchange}</div>
                         <div className="mt-1">
                             <Button className="buy mr-2" variant="success">Buy</Button>
-                            <Button className="buy mr-2" variant="danger">Sell</Button>
+                            {
+                                portfolio &&
+                                <Button className="buy mr-2" variant="danger">Sell</Button>
+                            }
                         </div>
                     </Col>
                     <Col md={4} className="text-center d-flex align-items-center flex-column">

@@ -46,6 +46,17 @@ export const generateHourlyPriceChart = (data: StockTypes.HistoricData[]): Stock
     return data.map(price => [price.t, price.c])
 }
 
+export const generateYearlyPriceChart = (data: StockTypes.HistoricData[]): StockTypes.YearlyPriceChart => {
+    var volume: [number, number][] = [], ohlc:[number, number, number, number, number][] = []
+
+    data.forEach(price => {
+        volume.push([price.t, price.v])
+        ohlc.push([price.t, price.o, price.h, price.l, price.c])
+    })
+
+    return {volume, ohlc}
+}
+
 export const isMarketClosed = (quote: StockTypes.Quote): boolean => {
     if(quote !== undefined) {
         const marketTime = new Date(quote.t * 1000)

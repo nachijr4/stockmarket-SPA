@@ -1,12 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import {getCompanyProfile, getHistoricData, getQuote,getLatestNews,
+import {getCompanyProfile, getPriceData, getQuote,getLatestNews,
     getRecommendation, getCompanySentiment, getCompanyPeers, getCompanyEarnings} from './api/stockAPI'
+import { checkWatchlisted } from "./api/watchlistApi";
 import * as StockTypes from '../types/StockTypes'
 import { RootState } from ".";
 import * as utilities from '../utilities'
+import { addWatchlistAction, checkWatchlistedAction, removeWatchlistAction } from "./watchlistSlice";
+import { access } from "fs";
+import { Portfolio } from "../types/PortfolioTypes";
+import { isStockPurchased } from "./api/portfolioApi";
+import { isStockPurchasedAction } from "./PortfolioSlice";
+import { idText } from "typescript";
 interface StockDataType {
     companyProfile?: StockTypes.CompanyProfile,
-    historicData?: StockTypes.HistoricData[],
+    yearlyPrice?: StockTypes.HistoricData[],
     hourlyPrice?: StockTypes.HistoricData[],
     quote?: StockTypes.Quote,
     latestNews?: StockTypes.LatestNews[],
@@ -17,6 +24,7 @@ interface StockDataType {
     recommendationChart ?: StockTypes.RecommendationChart,
     companyEarningsChart?: StockTypes.CompanyEarningsChart,
     hourlyPriceChart?: StockTypes.HourlyPriceChart[]
+    yearlyPriceChart?: StockTypes.YearlyPriceChart
 }
 
 interface StockStateType {
@@ -25,7 +33,14 @@ interface StockStateType {
     data : StockDataType,
     displayStock: boolean,
     displayNoStock: boolean,
-    isMarketClosed: boolean
+    isMarketClosed: boolean,
+    isWatchlisted: boolean,
+    portfolio ?: Portfolio
+}
+
+interface StockFetchType {
+    data: StockDataType,
+    isMarketClosed: boolean,
 }
 
 const initialStockState: StockStateType = {
@@ -34,22 +49,27 @@ const initialStockState: StockStateType = {
     displayStock: false,
     displayNoStock: false,
     data: {},
-    isMarketClosed: false
+    isMarketClosed: false,
+    isWatchlisted: false,
 }
 
-
+type StockPromises = [
+    Promise<StockTypes.CompanyProfile>, Promise<StockTypes.HistoricData[]>, 
+    Promise<StockTypes.LatestNews[]>, Promise<StockTypes.Recommendation[]>, 
+    Promise<StockTypes.CompanySentiment[]>, Promise<StockTypes.CompanyPeer[]>, 
+    Promise<StockTypes.CompanyEarnings[]>] 
 
 export const fetchStockData = createAsyncThunk(
     'stock/fetchBySymbol',
-    async (symbol: string): Promise<StockDataType> => {
-        const promiseArray: [Promise<StockTypes.CompanyProfile>, Promise<StockTypes.HistoricData[]>, Promise<StockTypes.LatestNews[]>, Promise<StockTypes.Recommendation[]>, Promise<StockTypes.CompanySentiment[]>, Promise<StockTypes.CompanyPeer[]>, Promise<StockTypes.CompanyEarnings[]>] 
+    async (symbol: string): Promise<StockFetchType> => {
+        const promiseArray: StockPromises
         = [    getCompanyProfile(symbol),
-                getHistoricData(symbol, false),
+                getPriceData(symbol, false),
                 getLatestNews(symbol),
                 getRecommendation(symbol),
                 getCompanySentiment(symbol),
                 getCompanyPeers(symbol),
-                getCompanyEarnings(symbol)
+                getCompanyEarnings(symbol),
         ]
 
         var quote: StockTypes.Quote = {
@@ -67,18 +87,20 @@ export const fetchStockData = createAsyncThunk(
 
         const hourlyPricePromise = getQuote(symbol).then(data => {
             quote = data
-            console.log("------------------------ Quote")
-            console.log(quote)
-            return getHistoricData(symbol, true, quote)
+            return getPriceData(symbol, true, quote)
         })
 
-        const [companyProfile, historicData, latestNews, recommendation, companySentiments, companyPeers, companyEarnings] = await Promise.all(promiseArray)
+        const [companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings] = await Promise.all(promiseArray)
         const hourlyPrice = await hourlyPricePromise
         const recommendationChart = utilities.generateRecomChartData(recommendation)
         const companyEarningsChart = utilities.generateEPSChartData(companyEarnings)
         const hourlyPriceChart = utilities.generateHourlyPriceChart(hourlyPrice)
-        const data: StockDataType = {quote, companyEarningsChart, companyProfile, historicData, latestNews, recommendation, companySentiments, companyPeers, companyEarnings, recommendationChart, hourlyPrice, hourlyPriceChart}
-        return data
+        const yearlyPriceChart = utilities.generateYearlyPriceChart(yearlyPrice)
+        const data: StockDataType = {quote, companyEarningsChart, companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings, recommendationChart, hourlyPrice, hourlyPriceChart, yearlyPriceChart}
+        
+
+        const isMarketClosed = quote.marketClosed
+        return {data, isMarketClosed}
     }
 )
 
@@ -102,6 +124,8 @@ const stockSlice = createSlice({
             state.isLoading = false
             state.stockSymbol = ""
             state.displayNoStock = false
+            state.isWatchlisted = false
+            state.portfolio = undefined
         }
     },
 
@@ -112,26 +136,52 @@ const stockSlice = createSlice({
         })
 
         builder.addCase(fetchStockData.fulfilled, (state, action) => {
-            state.stockSymbol = action.payload.companyProfile ? action.payload.companyProfile.ticker : ""
-            state.data = action.payload
+            state.stockSymbol = action.payload.data.companyProfile ? action.payload.data.companyProfile.ticker : ""
+            state.data = action.payload.data
             state.isLoading = false
             state.displayStock = true
-            if(state.data.quote !== undefined) {
-                state.isMarketClosed = state.data.quote.marketClosed
-            }
+            state.isMarketClosed = action.payload.isMarketClosed
         })
 
         builder.addCase(fetchStockData.rejected, (state, action) => {
-            state.stockSymbol = ""
             state.data = {}
-            state.isLoading = false
             state.displayStock = false
-            state.displayNoStock = true
+            state.isLoading = false
+            state.stockSymbol = ""
+            state.displayNoStock = false
+            state.isWatchlisted = false
+            state.portfolio = undefined
         })
 
         builder.addCase(fetchQuoteData.fulfilled, (state, action) => {
             state.data.quote = action.payload
             state.isMarketClosed = action.payload.marketClosed
+        })
+
+        // Watchlist actions
+
+        builder.addCase(checkWatchlistedAction.fulfilled, (state, action) => {
+            state.isWatchlisted = action.payload
+        })
+
+        builder.addCase(addWatchlistAction.fulfilled, (state, action) => {
+            state.isWatchlisted = true
+        })
+
+        builder.addCase(addWatchlistAction.rejected, (state, action) => {
+            
+            state.isWatchlisted = false
+        })
+
+        builder.addCase(removeWatchlistAction.fulfilled, (state, action) => {
+            state.isWatchlisted = false
+        })
+
+        // Portfolio action
+
+        builder.addCase(isStockPurchasedAction.fulfilled, (state, action) => {
+            if(action.payload && Object.keys(action.payload).length > 0)
+                state.portfolio = action.payload
         })
     }
 })

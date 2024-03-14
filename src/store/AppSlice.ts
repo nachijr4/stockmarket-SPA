@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface Notification {
     display: boolean,
-    success: boolean,
+    type: string,
     message: string
 }
 
@@ -14,7 +14,7 @@ interface AppState {
 const initialAppState: AppState = {
     notification: {
         display: false,
-        success: true,
+        type: "",
         message: ""
     },
     isFetchingData: false
@@ -29,11 +29,11 @@ const appSlice = createSlice({
         state.notification = {
           message: action.payload.message,
           display: true,
-          success: action.payload.open,
+          type: action.payload.type,
         };
       },
-      closeNotification(state, action) {
-        state.notification.display = false;
+      closeNotification(state) {
+        state.notification = initialAppState.notification;
       }
     },
   });

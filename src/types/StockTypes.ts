@@ -95,4 +95,9 @@ export interface CompanyEarningsChart {
     estimate: [number, number][]
 }
 
+export interface YearlyPriceChart {
+    ohlc: [number, number, number, number, number][],
+    volume: [number, number][]
+}
+
 export type HourlyPriceChart = [number, number]
