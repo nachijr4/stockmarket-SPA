@@ -13,9 +13,9 @@ export const formatDate = (date: Date): string => {
     return `${year}:${month}:${day} ${hours}:${minutes}:${seconds}`;
   }
 
-  export const toFixedIfNecessary = ( value: string|number | undefined, dp: number ) => {
-    return +parseFloat(value as string).toFixed( dp );
-  }
+//   export const toFixedIfNecessary = ( value: string|number | undefined, dp: number ) => {
+//     return +parseFloat(value as string).toFixed( dp );
+//   }
 
 export const generateRecomChartData = (data: StockTypes.Recommendation[]): StockTypes.RecommendationChart => {
     const dates:string[] = [], strongSell: number[] = [], strongBuy: number[] = [], buy: number[] = [], sell: number[] = [], hold: number[] = []

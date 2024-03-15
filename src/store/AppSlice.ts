@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getWalletAmount } from "./api/userApi";
 
 interface Notification {
     display: boolean,
@@ -8,7 +9,8 @@ interface Notification {
 
 interface AppState {
     notification: Notification,
-    isFetchingData: boolean
+    isFetchingData: boolean,
+    wallet: number
 }
 
 const initialAppState: AppState = {
@@ -17,8 +19,16 @@ const initialAppState: AppState = {
         type: "",
         message: ""
     },
-    isFetchingData: false
+    isFetchingData: false,
+    wallet: 0
 }
+
+export const getWalletAmountAction = createAsyncThunk(
+    'user/getWallet',
+    async () => {
+        return await getWalletAmount()
+    }
+)
 
 
 const appSlice = createSlice({
@@ -34,8 +44,26 @@ const appSlice = createSlice({
       },
       closeNotification(state) {
         state.notification = initialAppState.notification;
+      },
+      updateWallet(state, action) {
+        if(state.wallet + action.payload >= 0)
+            state.wallet = state.wallet + action.payload
+      },
+      setWallet(state, action) {
+        state.wallet = action.payload
       }
+
     },
+    extraReducers: (builder) => {
+        // Wallet
+        builder.addCase(getWalletAmountAction.fulfilled, (state, action) => {
+            state.wallet = action.payload
+        })
+
+        builder.addCase(getWalletAmountAction.rejected, (state, action) => {
+            state.wallet = 0
+        })
+    }
   });
 
 export const appActions = appSlice.actions;

@@ -9,7 +9,8 @@ import DynamicStockPrice from './DynamicStockPrice';
 import { formatDate } from '../../utilities';
 import { fetchQuoteData, fetchStockData } from '../../store/StockSlice';
 import { addWatchlistAction, checkWatchlistedAction, removeWatchlistAction } from '../../store/watchlistSlice';
-import { isStockPurchasedAction } from '../../store/PortfolioSlice';
+import { isStockPurchasedAction, purchaseStockAction, sellStockAction } from '../../store/PortfolioSlice';
+import { getWalletAmountAction } from '../../store/AppSlice';
 
 
 const StockHighlight: React.FC = () => {
@@ -18,11 +19,40 @@ const StockHighlight: React.FC = () => {
     const quote = useAppSelector(state => state.stock.data.quote)
     const isWatchlisted = useAppSelector(state => state.stock.isWatchlisted)
     const portfolio = useAppSelector(state => state.stock.portfolio)
-    var marketTime = new Date(), marketOpen;
-    if(quote !== undefined) {
-    marketTime = new Date(quote.t * 1000)
-    const currentDate = new Date()
-    marketOpen = (currentDate.getTime() - marketTime.getTime()) / 1000 > 300? false : true
+    const wallet = useAppSelector(state => state.app.wallet)
+
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [buyModal, setBuyModal] = useState<boolean>(true)
+    const closeModal = () => setShowModal(false)
+
+    const openBuyModal = () => {
+        setBuyModal(true)
+        setShowModal(true)
+    }
+
+    const openSellModal = () => {
+        setBuyModal(false)
+        setShowModal(true)
+    }
+
+    const handleBuyStock = (stockTicker: string, quantity: number, buyingPrice: number) => {
+        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice}))
+        closeModal()
+    }
+
+    const handleSellStock = (stockTicker: string, quantity: number, sellingPrice: number) => {
+        dispatch(sellStockAction({stockTicker, quantity, sellingPrice}))
+        closeModal()
+    }
+
+    const modalProps = {
+        buy: buyModal,
+        wallet: wallet,
+        portfolio: portfolio,
+        stockTicker: companyProfile?.ticker,
+        currentPrice: quote?.c,
+        closeModal: closeModal,
+        action: buyModal? handleBuyStock : handleSellStock
     }
 
     const toggleWatchlist = () => {
@@ -37,6 +67,7 @@ const StockHighlight: React.FC = () => {
         if(companyProfile?.ticker) {
             dispatch(checkWatchlistedAction(companyProfile.ticker))
             dispatch(isStockPurchasedAction(companyProfile.ticker))
+            dispatch(getWalletAmountAction())
         }
 
         const intervalId = setInterval(() => dispatch(fetchQuoteData("")), 15 * 1000)
@@ -58,10 +89,10 @@ const StockHighlight: React.FC = () => {
                         <div className="company-name">{companyProfile?.name}</div>
                         <div className='exchange'>{companyProfile?.exchange}</div>
                         <div className="mt-1">
-                            <Button className="buy mr-2" variant="success">Buy</Button>
+                            <Button onClick={() => openBuyModal()}className="buy mr-2" variant="success">Buy</Button>
                             {
-                                portfolio &&
-                                <Button className="buy mr-2" variant="danger">Sell</Button>
+                                portfolio && Object.keys(portfolio).length > 0 &&
+                                <Button onClick={() => openSellModal()} className="buy mr-2" variant="danger">Sell</Button>
                             }
                         </div>
                     </Col>
@@ -75,15 +106,15 @@ const StockHighlight: React.FC = () => {
                     </Col>
                 </Row>
                 <Row className="text-center">
-                    <div className={"market-state my-3 " + (marketOpen ? "text-success": "text-danger")}>
-                        {marketOpen?
+                    <div className={"market-state my-3 " + (!quote?.marketClosed ? "text-success": "text-danger")}>
+                        {!quote?.marketClosed ?
                         "Market is Open" :
-                        "Market Closed on " + formatDate(marketTime)
+                        "Market Closed on " + formatDate(new Date(quote.t * 1000))
                     }
                     </div>
                     </Row>
             </Container>
-            <StockModal />
+            {showModal && <StockModal {...modalProps}/>}
         </>
         
     );

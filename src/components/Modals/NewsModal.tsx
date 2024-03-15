@@ -40,7 +40,7 @@ const TopNewsModal: React.FC<NewsModal> = (props:NewsModal) => {
                     </Row>
                     <Row className="justify-content-center">
                         <div>
-                            <span>For more details click <a href={props.news.url}>here</a></span>
+                            <span>For more details click <a href={props.news.url} target="_blank">here</a></span>
                         </div>
                     </Row>
                 </Container>

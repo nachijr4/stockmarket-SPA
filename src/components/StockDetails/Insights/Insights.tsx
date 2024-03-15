@@ -5,8 +5,6 @@ import RecommendationChart from './RecommendationChart';
 import EPSChart from './EPSChart';
 import { useAppSelector } from '../../../store/hooks';
 import { CompanySentiment } from '../../../types/StockTypes';
-import { toFixedIfNecessary } from '../../../utilities';
-import { tableContainerClasses } from '@mui/material';
 
 const Insights: React.FC = () => {
 
@@ -40,18 +38,18 @@ const Insights: React.FC = () => {
                     </tr>
                     <tr>
                         <td className="fw-bold">Total</td>
-                        <td>{toFixedIfNecessary(totalMspr, 2)}</td>
-                        <td>{toFixedIfNecessary(totalChange,2)}</td>
+                        <td>{totalMspr.toFixed(2)}</td>
+                        <td>{totalChange.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td className="fw-bold">Positive</td>
-                        <td>{toFixedIfNecessary(totalPossitive, 2)}</td>
-                        <td>{toFixedIfNecessary(totalPChange, 2)}</td>
+                        <td>{totalPossitive.toFixed(2)}</td>
+                        <td>{totalPChange.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <td className="fw-bold">Negative</td>
-                        <td>{toFixedIfNecessary(totalNegative, 2)}</td>
-                        <td>{toFixedIfNecessary(totalNChange, 2)}</td>
+                        <td>{totalNegative.toFixed(2)}</td>
+                        <td>{totalNChange.toFixed(2)}</td>
                     </tr>
                 </table>
             </Row>

@@ -15,8 +15,8 @@ function AppNavbar() {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Nav.Link className="me-2 px-3" href="#action1">Search</Nav.Link>
-            <Nav.Link className="me-2 px-3 navlink-selected" href="#action2">Watchlist</Nav.Link>
+            <Nav.Link className="me-2 px-3 navlink-selected" href="#action1">Search</Nav.Link>
+            <Nav.Link className="me-2 px-3" href="#action2">Watchlist</Nav.Link>
             <Nav.Link className="me-5 px-3" href="#">Portfolio</Nav.Link>
           </Nav>
         </Navbar.Collapse>

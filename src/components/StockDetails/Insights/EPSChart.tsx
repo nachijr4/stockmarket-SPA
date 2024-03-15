@@ -3,7 +3,6 @@ import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock';
 // import Highcharts from 'highcharts';
 import { useAppSelector } from '../../../store/hooks';
-import { toFixedIfNecessary } from '../../../utilities';
 
 const EPSChart:React.FC = () => {
 
@@ -15,7 +14,7 @@ const EPSChart:React.FC = () => {
     if(data) {
 
         data.years.forEach((value, index) => {
-            surprise[value] = toFixedIfNecessary(data.actual[index][1] - data.estimate[index][1], 4)
+            surprise[value] = (data.actual[index][1] - data.estimate[index][1]).toFixed(4)
         })
 
         options = {

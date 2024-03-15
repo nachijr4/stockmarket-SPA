@@ -9,7 +9,7 @@ import { addWatchlistAction, checkWatchlistedAction, removeWatchlistAction } fro
 import { access } from "fs";
 import { Portfolio } from "../types/PortfolioTypes";
 import { isStockPurchased } from "./api/portfolioApi";
-import { isStockPurchasedAction } from "./PortfolioSlice";
+import { isStockPurchasedAction, purchaseStockAction, sellStockAction } from "./PortfolioSlice";
 import { idText } from "typescript";
 interface StockDataType {
     companyProfile?: StockTypes.CompanyProfile,
@@ -91,7 +91,7 @@ export const fetchStockData = createAsyncThunk(
         })
 
         const [companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings] = await Promise.all(promiseArray)
-        const hourlyPrice = await hourlyPricePromise
+        const [hourlyPrice] = await Promise.all([hourlyPricePromise])
         const recommendationChart = utilities.generateRecomChartData(recommendation)
         const companyEarningsChart = utilities.generateEPSChartData(companyEarnings)
         const hourlyPriceChart = utilities.generateHourlyPriceChart(hourlyPrice)
@@ -182,6 +182,14 @@ const stockSlice = createSlice({
         builder.addCase(isStockPurchasedAction.fulfilled, (state, action) => {
             if(action.payload && Object.keys(action.payload).length > 0)
                 state.portfolio = action.payload
+        })
+
+        builder.addCase(purchaseStockAction.fulfilled, (state, action) => {
+            state.portfolio = action.payload.portfolio
+        })
+
+        builder.addCase(sellStockAction.fulfilled, (state, action) => {
+            state.portfolio = action.payload.portfolio
         })
     }
 })
