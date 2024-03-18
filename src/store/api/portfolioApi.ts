@@ -28,9 +28,9 @@ export const isStockPurchased = async (symbol: string): Promise<Portfolio> => {
     }
 }
 
-export const purchaseStock = async(symbol: string, quantity: number, buyingPrice: number): Promise<PortfolioApiType> => {
+export const purchaseStock = async(symbol: string, quantity: number, buyingPrice: number, companyName: string): Promise<PortfolioApiType> => {
     try {
-        const payload = {stockTicker: symbol, quantity, buyingPrice}
+        const payload = {stockTicker: symbol, quantity, buyingPrice, companyName}
         const response = await axios.post(portfolioBaseUrl + "/buy", payload)
         const data =  validateAxiosResponse(response)
         return data.data
@@ -47,5 +47,15 @@ export const sellStock = async(symbol: string, quantity: number, sellingPrice: n
         return data.data
     } catch (e) {
         throw new Error("Error while buying portfolio")
+    }
+}
+
+export const fetchPortfolio = async (): Promise<Portfolio[]> => {
+    try {
+        const response = await fetch(`${portfolioBaseUrl}`);
+        const data = await validateResponse(response);
+        return data.data;
+    } catch (e) {
+        throw new Error("Error while checking watchlist");
     }
 }

@@ -10,7 +10,8 @@ import { access } from "fs";
 import { Portfolio } from "../types/PortfolioTypes";
 import { isStockPurchased } from "./api/portfolioApi";
 import { isStockPurchasedAction, purchaseStockAction, sellStockAction } from "./PortfolioSlice";
-import { idText } from "typescript";
+import { useNavigate } from "react-router-dom";
+
 interface StockDataType {
     companyProfile?: StockTypes.CompanyProfile,
     yearlyPrice?: StockTypes.HistoricData[],
@@ -33,6 +34,7 @@ interface StockStateType {
     data : StockDataType,
     displayStock: boolean,
     displayNoStock: boolean,
+    noStockMsg: string,
     isMarketClosed: boolean,
     isWatchlisted: boolean,
     portfolio ?: Portfolio
@@ -48,6 +50,7 @@ const initialStockState: StockStateType = {
     isLoading: false,
     displayStock: false,
     displayNoStock: false,
+    noStockMsg: "",
     data: {},
     isMarketClosed: false,
     isWatchlisted: false,
@@ -61,7 +64,8 @@ type StockPromises = [
 
 export const fetchStockData = createAsyncThunk(
     'stock/fetchBySymbol',
-    async (symbol: string): Promise<StockFetchType> => {
+    async (symbol: string, thunkApi): Promise<StockFetchType> => {
+        thunkApi.dispatch(stockSlice.actions.setStockTicker(symbol))
         const promiseArray: StockPromises
         = [    getCompanyProfile(symbol),
                 getPriceData(symbol, false),
@@ -124,15 +128,30 @@ const stockSlice = createSlice({
             state.isLoading = false
             state.stockSymbol = ""
             state.displayNoStock = false
+            state.noStockMsg = ""
             state.isWatchlisted = false
             state.portfolio = undefined
+        },
+        setPortfolio(state, action) {
+            state.portfolio = action.payload
+        },
+        setErrEnterTicker(state) {
+            state.displayNoStock = true
+            state.noStockMsg = "Please enter a valid ticker."
+
+        },
+        setStockTicker(state, action) {
+            state.stockSymbol = action.payload
         }
+
     },
 
     extraReducers: (builder) => {
         builder.addCase(fetchStockData.pending, (state, action) => {
             state.isLoading = true
             state.displayStock = false
+            state.data = {}
+            state.portfolio = undefined
         })
 
         builder.addCase(fetchStockData.fulfilled, (state, action) => {
@@ -140,6 +159,8 @@ const stockSlice = createSlice({
             state.data = action.payload.data
             state.isLoading = false
             state.displayStock = true
+            state.displayNoStock = false
+            state.noStockMsg = ""
             state.isMarketClosed = action.payload.isMarketClosed
         })
 
@@ -148,7 +169,8 @@ const stockSlice = createSlice({
             state.displayStock = false
             state.isLoading = false
             state.stockSymbol = ""
-            state.displayNoStock = false
+            state.displayNoStock = true
+            state.noStockMsg = "No data found. Please enter a valid ticker"
             state.isWatchlisted = false
             state.portfolio = undefined
         })
@@ -174,7 +196,8 @@ const stockSlice = createSlice({
         })
 
         builder.addCase(removeWatchlistAction.fulfilled, (state, action) => {
-            state.isWatchlisted = false
+            if(action.payload.stockTicker === state.data.companyProfile?.ticker)
+                state.isWatchlisted = false
         })
 
         // Portfolio action
@@ -185,12 +208,14 @@ const stockSlice = createSlice({
         })
 
         builder.addCase(purchaseStockAction.fulfilled, (state, action) => {
+            if(action.payload.portfolio.stockTicker === state.data.companyProfile?.ticker)
             state.portfolio = action.payload.portfolio
         })
 
-        builder.addCase(sellStockAction.fulfilled, (state, action) => {
-            state.portfolio = action.payload.portfolio
-        })
+        // builder.addCase(sellStockAction.fulfilled, (state, action) => {
+        //     if(action.payload.portfolio.stockTicker === state.data.companyProfile?.ticker)
+        //     state.portfolio = action.payload.portfolio
+        // })
     }
 })
 

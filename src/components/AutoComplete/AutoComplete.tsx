@@ -5,7 +5,8 @@ import search from "../../images/search.svg"
 import reset from "../../images/x.svg"
 import Suggestions from "./Suggestions"
 import { fetchStockData, stockActions} from '../../store/StockSlice'
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useNavigate  } from "react-router-dom";
 
 interface Suggestions {
     "description": string,
@@ -17,8 +18,10 @@ interface Suggestions {
 var timeoutId: NodeJS.Timeout;
 
 const Autocomplete: React.FC = () => {
+    const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const [inputValue, setInputValue] = useState<string>('');
+    const stockSymbol = useAppSelector(state => state.stock.stockSymbol)
+    // const [inputValue, setInputValue] = useState<string>('');
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [suggestions, setSuggestions] = useState<Suggestions[]>([]);
     const [inputFocused, setInputFocused] = useState<boolean>(false);
@@ -62,7 +65,7 @@ const Autocomplete: React.FC = () => {
 
 
     const onInputChange = async (e: any) => {
-        setInputValue(e.target.value)
+        dispatch(stockActions.setStockTicker(e.target.value))
 
         clearTimeout(timeoutId);
 
@@ -72,27 +75,32 @@ const Autocomplete: React.FC = () => {
     }
 
     const onSuggestionClick = (stockTicker: string) => {
-        setInputValue(stockTicker)
+        dispatch(stockActions.setStockTicker(stockTicker))
         setSuggestionsFocused(false)
-        dispatch(fetchStockData(stockTicker))
+        if(stockTicker && stockTicker != "") {
+            dispatch(fetchStockData(stockTicker))
+        } else {
+            dispatch(stockActions.setErrEnterTicker())
+        }
     }
 
     const onResetClick = () => {
-        setInputValue("")
+        dispatch(stockActions.setStockTicker(""))
         setSuggestions([])
-        dispatch(stockActions.resetStockState())
+        dispatch(stockActions.resetStockState())    
+        navigate(`/search/home`)
     }
 
     const handleKeyPress = (e: any) => {
         if(e.key === 'Enter')
-            onSuggestionClick(inputValue)
+            onSuggestionClick(stockSymbol)
     }
 
     return (
         <div className="col-lg-3 autocomplete">
                 <input
                     type="text"
-                    value={inputValue}
+                    value={stockSymbol}
                     onChange={onInputChange}
                     onFocus={onInputFocus}
                     onBlur={onInputBlur}
@@ -111,8 +119,8 @@ const Autocomplete: React.FC = () => {
                         onSuggestionsBlur={onSuggestionsBlur} /> 
                         : null
                 }
-            <div className="d-inline-block search-btn" onClick={() => onSuggestionClick(inputValue)}><img src={search} ></img></div>
-            <div className="d-inline-block reset-btn" onClick={() => onResetClick()}><img src={reset}></img></div>
+            <div className="d-inline-block search-btn hover-pointer" onClick={() => onSuggestionClick(stockSymbol)}><img src={search} ></img></div>
+            <div className="d-inline-block reset-btn hover-pointer" onClick={() => onResetClick()}><img src={reset}></img></div>
         </div>
     );
 };

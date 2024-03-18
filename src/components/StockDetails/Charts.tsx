@@ -8,13 +8,13 @@ import { useAppSelector } from '../../store/hooks';
 const Charts: React.FC = () => {
 
     const data = useAppSelector(state => state.stock.data.yearlyPriceChart)
-    const stockTicker = useAppSelector(state => state.stock.stockSymbol)
+    const companyProfile = useAppSelector(state => state.stock.data.companyProfile)
 
     highchartsIndicators(Highcharts);
     highchartsVolumeByPrice(Highcharts);
     var groupingUnits: Object =  [[
-        'week',                         // unit name
-        [1]                             // allowed multiples
+        'week',
+        [1]
     ], [
         'month',
         [1, 2, 3, 4, 6]
@@ -26,7 +26,7 @@ const Charts: React.FC = () => {
             backgroundColor: '#f7f7f7',
         },
         title: {
-            text: `${stockTicker} Historical`
+            text: `${companyProfile?.ticker} Historical`
         },
 
         subtitle: {
@@ -121,8 +121,8 @@ const Charts: React.FC = () => {
 
         series: [{
             type: 'candlestick',
-            name: stockTicker,
-            id: stockTicker,
+            name: companyProfile?.ticker,
+            id: companyProfile?.ticker,
             zIndex: 2,
             data: data?.ohlc
         }, {
@@ -133,7 +133,7 @@ const Charts: React.FC = () => {
             yAxis: 1
         }, {
             type: 'vbp',
-            linkedTo: stockTicker,
+            linkedTo: companyProfile?.ticker,
             params: {
                 volumeSeriesID: 'volume'
             },
@@ -145,7 +145,7 @@ const Charts: React.FC = () => {
             }
         }, {
             type: 'sma',
-            linkedTo: stockTicker,
+            linkedTo: companyProfile?.ticker,
             zIndex: 1,
             marker: {
                 enabled: false

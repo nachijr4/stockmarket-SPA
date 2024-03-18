@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import './modal.css'
 import { Portfolio } from '../../types/PortfolioTypes';
 
-interface Props {
+export interface Props {
     buy: boolean,
     wallet: number,
     portfolio?: Portfolio,
@@ -80,7 +80,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
                     </Row>
                     <Row className="justify-content-center">
                         <Col xs="auto" className="p-0 align-self-center">Quantity: &nbsp;</Col>
-                        <Col xs="auto" className="pr-3 flex-grow-1"><input value={quantity} onChange={(e) => quantityChange(e.target.value)} className="form-control" min="0" style={{height: "30px"}} type="number"/></Col>
+                        <Col xs="auto" className="pr-3 flex-grow-1"><input value={quantity} onChange={(e) => quantityChange(e.target.value)} className="form-control" min="0" style={{height: "30px"}} autoFocus={true} type="number"/></Col>
                     </Row>
                     {
                         showError && 
@@ -92,7 +92,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
             </Modal.Body>
             <Modal.Footer className="justify-content-between">
                 <div><span>Total:&nbsp;</span><span>{total.toFixed(2)}</span></div>
-            <Button variant="success" onClick={() => !showError ? props.action(props.stockTicker, quantity, props.currentPrice) : null} disabled={showError}>
+            <Button variant="success" onClick={() => !showError ? props.action(props.stockTicker, quantity, props.currentPrice) : null} disabled={showError || Number.isNaN(quantity) ||quantity === 0}>
                 {props.buy ? "Buy": "Sell"}
             </Button>
             </Modal.Footer>

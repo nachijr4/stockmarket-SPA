@@ -13,17 +13,17 @@ const DataContainer:React.FC = () => {
     const dispatch = useAppDispatch()
     const closeNotification = () => dispatch(appActions.closeNotification())
 
-    useEffect(() => {
-        if(notification && notification.display)
-            setTimeout(closeNotification, 10 * 1000)
-    }, [notification, dispatch])
+    // useEffect(() => {
+    //     if(notification && notification.display)
+    //         setTimeout(closeNotification, 10 * 1000)
+    // }, [notification, dispatch])
 
     return (
         <div className='data-container'>
             {
                 notification.display &&
                 <MyAlert type={notification.type} message={notification.message} onClose={closeNotification} />
-            }
+            } 
             <StockHighlight />
             <StockTabs />
         </div>

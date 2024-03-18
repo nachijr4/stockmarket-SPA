@@ -1,10 +1,13 @@
 import React from 'react'
 import { Container, Col } from 'react-bootstrap'
 import HourlyPriceChart from './HourlyPriceChart'
-import { useAppSelector } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
+import { Link } from 'react-router-dom'
+import { fetchStockData } from '../../../store/StockSlice'
 
 
 const SummaryComponent:React.FC = () => {
+    const dispatch = useAppDispatch()
     const quote = useAppSelector(state => state.stock.data.quote)
     const companyProfile = useAppSelector(state => state.stock.data.companyProfile)
     const companyPeers = useAppSelector(state => state.stock.data.companyPeers)
@@ -31,7 +34,7 @@ const SummaryComponent:React.FC = () => {
                     {/* <br />  */}
                     <div className="col-12">
                         {
-                            companyPeers?.map(peer => <a href="">{peer},</a>)
+                            companyPeers?.map(peer => <Link to={`/search/${peer}`} onClick={() => dispatch(fetchStockData(peer))}>{peer},</Link>)
                         }
                     </div>
 

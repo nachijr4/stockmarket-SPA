@@ -59,6 +59,10 @@ body {
     background-color: #cbc9c9;
 }
 
+.hover-pointer:hover{
+    cursor: pointer;
+}
+
 .spinner-color {
     color: #5d5ba4;
 }

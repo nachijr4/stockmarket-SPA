@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { useAppSelector } from "../../../store/hooks";
 
 const HourlyPriceChart: React.FC = () => {
-    const stockTicker = useAppSelector(state=> state.stock.stockSymbol)
+    const companyProfile = useAppSelector(state=> state.stock.data.companyProfile)
     const data = useAppSelector(state => state.stock.data.hourlyPriceChart)
     const isMarketClosed = useAppSelector(state => state.stock.isMarketClosed)
     var options
@@ -35,7 +35,7 @@ const HourlyPriceChart: React.FC = () => {
             }
         },
         title: {
-          text: `${stockTicker} Hourly Price Variation`
+          text: `${companyProfile?.ticker} Hourly Price Variation`
         },
         series: [
           {

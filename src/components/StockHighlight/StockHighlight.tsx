@@ -7,7 +7,7 @@ import StockModal from '../Modals/StockModal'
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import DynamicStockPrice from './DynamicStockPrice';
 import { formatDate } from '../../utilities';
-import { fetchQuoteData, fetchStockData } from '../../store/StockSlice';
+import { fetchQuoteData } from '../../store/StockSlice';
 import { addWatchlistAction, checkWatchlistedAction, removeWatchlistAction } from '../../store/watchlistSlice';
 import { isStockPurchasedAction, purchaseStockAction, sellStockAction } from '../../store/PortfolioSlice';
 import { getWalletAmountAction } from '../../store/AppSlice';
@@ -36,7 +36,8 @@ const StockHighlight: React.FC = () => {
     }
 
     const handleBuyStock = (stockTicker: string, quantity: number, buyingPrice: number) => {
-        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice}))
+        if(companyProfile)
+        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice, companyName: companyProfile.name}))
         closeModal()
     }
 
@@ -91,7 +92,7 @@ const StockHighlight: React.FC = () => {
                         <div className="mt-1">
                             <Button onClick={() => openBuyModal()}className="buy mr-2" variant="success">Buy</Button>
                             {
-                                portfolio && Object.keys(portfolio).length > 0 &&
+                                portfolio && Object.keys(portfolio).length > 0 && portfolio.quantity > 0 &&
                                 <Button onClick={() => openSellModal()} className="buy mr-2" variant="danger">Sell</Button>
                             }
                         </div>

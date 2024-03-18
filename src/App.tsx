@@ -1,5 +1,6 @@
 import './styles/App.css';
 import './styles/home.css';
+import { Outlet } from "react-router-dom";
 import AppNavbar from './components/Navbar';
 import SearchPage from './components/SearchPage';
 import WatchlistPage from './components/WatchlistPage';
@@ -10,7 +11,8 @@ function App() {
   return (
     <>
         <AppNavbar></AppNavbar>
-        <SearchPage></SearchPage>
+        <Outlet />
+        {/* <SearchPage></SearchPage> */}
         {/* <Footer /> */}
         {/* <WatchlistPage /> */}
         {/* <PortfolioPage /> */}

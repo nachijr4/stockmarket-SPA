@@ -51,3 +51,13 @@ export const removeWatchlist = async (symbol: string): Promise<Watchlist> => {
         throw new Error("Error while checking watchlist");
     }
 }
+
+export const fetchWatchlist = async (): Promise<Watchlist[]> => {
+    try {
+        const response = await fetch(`${watchlistBaseUrl}`);
+        const data = await validateResponse(response);
+        return data.data;
+    } catch (e) {
+        throw new Error("Error while checking watchlist");
+    }
+}

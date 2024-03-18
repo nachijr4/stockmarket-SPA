@@ -1,67 +1,15 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card, Container, Row, Col, Button } from 'react-bootstrap'
 import SVGComponent from './utilities/SVGComponent'
 import '../styles/watchlist.css'
-
-const generateCard:Function = () => {
-
-    const btnStyle = {
-        height: "28px",
-        fontSize: '12px',
-        paddingLeft: "12px",
-        paddingRight: "12px"
-    }
-
-    return (
-        <Row className="mb-2">
-                <Card className="p-0">
-                    <Card.Header>
-                        <span className="fw-bold fw-500 fs-5">AAPL</span> &nbsp;
-                        <span className="text-secondary fw-500">Apple Inc</span>
-                    </Card.Header>
-                    <Card.Body className="py-2">
-                        <Row>
-                            <Col md={6}>
-                                <Row>
-                                    <Col md={6} className="fw-500">Quantity:</Col>
-                                    <Col md={6} className='ff-arimo fw-500'>3.00</Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6} className="fw-500">Avg. Cost / Share:</Col>
-                                    <Col md={6} className='ff-arimo fw-500'>184.23</Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6} className="fw-500">Total Cost:</Col>
-                                    <Col md={6} className="ff-arimo fw-500">552.69</Col>
-                                </Row>
-                            </Col>
-                            <Col md={6}>
-                            <Row>
-                                    <Col md={6} className="fw-500">Change:</Col>
-                                    <Col md={6} className='d-flex justify-content-start text-danger'>
-                                        <SVGComponent symbol="caratDown" />
-                                        <span className="ff-arimo fw-500">-0.10</span>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6} className="fw-500">Current Price:</Col>
-                                    <Col md={6} className="text-danger ff-arimo fw-500">184.13</Col>
-                                </Row>
-                                <Row>
-                                    <Col md={6} className="fw-500">Market Value:</Col>
-                                    <Col md={6} className="text-danger ff-arimo fw-500">552.40</Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Card.Body>
-                    <Card.Footer className="d-flex justify-content-start py-1 px-2">
-                        <button type="button" className="btn btn-primary btn-sm py-0" style={btnStyle}>Buy</button>
-                        <button type="button" className="btn btn-danger btn-sm ml-2 py-0" style={btnStyle}>Sell</button>
-                    </Card.Footer>
-                </Card>
-            </Row>
-    )
-}
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import PortfolioCard from './Portfolio/PortfolioCard'
+import { fetchPortfolioAction, purchaseStockAction, sellStockAction } from '../store/PortfolioSlice'
+import { getWalletAmountAction } from '../store/AppSlice'
+import { SpinnerComponent } from './utilities/SpinnerComponent'
+import MessageComponent from './Message/MessageComponent'
+import StockModal, {Props as StockModalProps}  from './Modals/StockModal'
+import { Portfolio, PortfolioQuoteType } from '../types/PortfolioTypes'
 
 const PortfolioPage: React.FC = () => {
     const walletStyle = {
@@ -70,16 +18,60 @@ const PortfolioPage: React.FC = () => {
         letterSpacing: "0.5px",
         color: "#4b4a4a"
         }
+    
+    const dispatch = useAppDispatch()
+    const [showModal, setShowModal] = useState<boolean>(false)
+    const [modalData, setModalData] = useState<any>({})
+
+    useEffect(() => {
+        dispatch(fetchPortfolioAction())
+        dispatch(getWalletAmountAction())
+    }, [])
+
+    const portfolio = useAppSelector(state => state.portfolio.portfolio)
+    const isLoading = useAppSelector(state => state.portfolio.isLoading)
+    const wallet = useAppSelector(state => state.app.wallet)
+
+    const handleBuyStock = (stockTicker: string, quantity: number, buyingPrice: number) => {
+        if(portfolio)
+        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice, companyName: portfolio[stockTicker].companyName, getQuote: true}))
+        handleModalClose()
+    }
+
+    const handleSellStock = (stockTicker: string, quantity: number, sellingPrice: number) => {
+        dispatch(sellStockAction({stockTicker, quantity, sellingPrice, getQuote: true}))
+        handleModalClose()
+    }
+
+    const handleModalOpen = (data: PortfolioQuoteType, buy: boolean) => {
+        const portfolio: Portfolio = {...data}
+        const modalProp: any = {...data}
+        modalProp.wallet = wallet
+        modalProp.currentPrice = data.c
+        modalProp.buy = buy
+        modalProp.portfolio = portfolio
+        setModalData(modalProp)
+        setShowModal(true)
+    }
+
+    const handleModalClose = () => {
+        setShowModal(false)
+        setModalData({})
+    }
+
     return (
         <Container className='col-md-8 mx-auto'>
             <Row className="my-4 mb-2">
                 <div className='p-0 watchlist-title mb-2'>My Portfolio</div>
-                <div className='p-0' style={walletStyle}>Money in Wallet: $22484.40</div>
+                <div className='p-0' style={walletStyle}>Money in Wallet: ${wallet.toFixed(2)}</div>
             </Row>
-            {
-            generateCard()}
-            {generateCard()
+            { isLoading ? <SpinnerComponent className="spinner-color" /> 
+            :
+            Object.keys(portfolio).length > 0?
+                Object.keys(portfolio).map(key =>  portfolio[key].quantity > 0 && <PortfolioCard portfolio={portfolio[key]} portfolioAction={handleModalOpen}/>) :
+                <MessageComponent type='warning' message="Currently you don't have any stock in your portfolio."/>
             }
+            {showModal && <StockModal {...modalData} action={modalData.buy? handleBuyStock:handleSellStock} closeModal={handleModalClose} />}
         </Container>
     )
 }
