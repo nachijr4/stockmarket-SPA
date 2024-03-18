@@ -35,7 +35,13 @@ const HourlyPriceChart: React.FC = () => {
             }
         },
         title: {
-          text: `${companyProfile?.ticker} Hourly Price Variation`
+          text: `${companyProfile?.ticker} Hourly Price Variation`,
+          style: {
+            color: "grey",
+            fontWeight: "500",
+            fontSize: "16px",
+            fontFamily: "roboto"
+          }
         },
         series: [
           {

@@ -8,7 +8,7 @@ import { useAppSelector } from '../store/hooks';
 function AppNavbar() {
   const companyProfile = useAppSelector(state => state.stock.data.companyProfile)
   return (
-    <Navbar variant="dark" expand="lg" className="navbar p-0">
+    <Navbar variant="dark" expand="lg" className="navbar py-0">
       <Container fluid>
         <div className="navbar-brand">Stock Search</div>
         <Navbar.Toggle aria-controls="navbarScroll" />

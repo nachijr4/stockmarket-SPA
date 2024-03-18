@@ -60,7 +60,7 @@ export default function StockTabs() {
 
 
   return (
-    <Container>
+    <Container fluid className="p-0">
         <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
             <Tabs value={value} allowScrollButtonsMobile={true} scrollButtons={true} centered variant="scrollable" onChange={handleChange} aria-label="Stock Tabs">

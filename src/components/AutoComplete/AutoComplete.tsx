@@ -98,7 +98,7 @@ const Autocomplete: React.FC = () => {
     }
 
     return (
-        <div className="col-lg-3 autocomplete d-flex  col-8 col-md-3 ">
+        <div className="autocomplete d-flex  col-8 col-md-3 ">
                 <input
                     type="text"
                     value={stockSymbol}

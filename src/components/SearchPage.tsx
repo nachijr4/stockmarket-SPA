@@ -20,7 +20,7 @@ const SearchPage:React.FC = () => {
     }, [stockState.data.companyProfile])
 
     return (
-        <div className="col-md-12">
+        <div className="col-md-12 container">
             <div className="App">
                 <div className="app-title my-3">STOCK SEARCH</div>
             </div>
