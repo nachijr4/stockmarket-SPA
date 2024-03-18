@@ -24,7 +24,7 @@ const WatchlistPage: React.FC = () => {
 
     return (
         <Container className='col-md-8 mx-auto'>
-            <Row className="my-4">
+            <Row className="my-4 mx-0">
                 <div className='p-0 watchlist-title'>My Watchlist</div>
             </Row>
             { isLoading ? <SpinnerComponent className="spinner-color" /> :

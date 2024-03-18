@@ -10,8 +10,8 @@ const DynamicStockPrice: React.FC<Quote> = (props: Quote) => {
         <div className="stock-price">
             <div className={colorClass}>
                 <div className="price"><span>{props.c.toFixed(2)}</span></div>
-                <div className="change d-flex align-items-center justify-content-center text-success">
-                    <SVGComponent className="" symbol={caratClass} />
+                <div className="change fw-bold d-flex align-items-center justify-content-center text-success">
+                    <SVGComponent height="14px" symbol={caratClass} />
                     <span className="ml-1">{props.d.toFixed(2)} ({props.dp.toFixed(2)}%)</span>
                 </div>
             </div>

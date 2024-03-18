@@ -33,7 +33,7 @@ const PortfolioCard:React.FC<Props> = (props: Props) => {
 
     return (
         <>
-        <Row className="mb-2">
+        <Row className="mb-2 mx-0">
                 <Card className="p-0">
                     <Card.Header className="hover-pointer" onClick={() => {click()}}>
                         <span className="fw-bold fw-500 fs-5">{props.portfolio.stockTicker}</span> &nbsp;

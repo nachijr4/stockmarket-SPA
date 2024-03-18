@@ -80,7 +80,7 @@ const StockHighlight: React.FC = () => {
         <>
             <Container>
                 <Row>
-                    <Col md={4} className='text-center'>
+                    <Col xs={4} md={4} className='text-center'>
                         <div className='d-flex align-items-center justify-content-center ticker'>
                             <span>{companyProfile?.ticker}</span> 
                             <div className="d-flex ml-2 pb-1" onClick={() => toggleWatchlist()}>
@@ -97,13 +97,13 @@ const StockHighlight: React.FC = () => {
                             }
                         </div>
                     </Col>
-                    <Col md={4} className="text-center d-flex align-items-center flex-column">
+                    <Col xs={3} md={4} className="text-center d-flex align-items-center flex-column">
                         <div className="mb-auto">
                             <img className="company-logo" height="75px" src={companyProfile?.logo}/>
                         </div>
                     </Col>
-                    <Col md={4} className="text-center">
-                        {quote && <DynamicStockPrice {...quote}/>}
+                    <Col xs={5} md={4} className="text-center">
+                        {quote  && <DynamicStockPrice {...quote}/>}
                     </Col>
                 </Row>
                 <Row className="text-center">

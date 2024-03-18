@@ -29,7 +29,7 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -54,7 +54,8 @@ export default function StockTabs() {
   const tabStyle = {
     fontSize: ".8rem",
     fontWeight: "700",
-    color: "#808080db"
+    color: "#808080db",
+    minWidth: "25%",
   }
 
 
@@ -62,7 +63,7 @@ export default function StockTabs() {
     <Container>
         <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
-            <Tabs value={value} centered variant="fullWidth" onChange={handleChange} aria-label="Stock Tabs">
+            <Tabs value={value} allowScrollButtonsMobile={true} scrollButtons={true} centered variant="scrollable" onChange={handleChange} aria-label="Stock Tabs">
                 <Tab sx={tabStyle}  label="Summary" {...a11yProps(0)} />
                 <Tab sx={tabStyle} label="Top News" {...a11yProps(1)} />
                 <Tab sx={tabStyle} label="Charts" {...a11yProps(2)} />

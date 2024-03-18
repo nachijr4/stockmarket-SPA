@@ -12,7 +12,7 @@ const HourlyPriceChart: React.FC = () => {
     options = {
         chart: {
           type: 'line',
-          backgroundColor: "#f4f1f1"
+          backgroundColor: "#f7f7f7"
         },
         credits: {
             enabled: false

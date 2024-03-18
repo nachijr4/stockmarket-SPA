@@ -22,7 +22,7 @@ const SearchPage:React.FC = () => {
     return (
         <div className="col-md-12">
             <div className="App">
-                <h3 className="app-title">STOCK SEARCH</h3>
+                <div className="app-title my-3">STOCK SEARCH</div>
             </div>
             <Autocomplete></Autocomplete>
             { stockState.isLoading? 

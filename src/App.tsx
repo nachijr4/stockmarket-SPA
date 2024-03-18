@@ -12,10 +12,7 @@ function App() {
     <>
         <AppNavbar></AppNavbar>
         <Outlet />
-        {/* <SearchPage></SearchPage> */}
-        {/* <Footer /> */}
-        {/* <WatchlistPage /> */}
-        {/* <PortfolioPage /> */}
+        <Footer />
     </>
   );
 }

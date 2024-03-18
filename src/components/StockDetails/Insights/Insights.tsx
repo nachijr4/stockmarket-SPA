@@ -54,7 +54,7 @@ const Insights: React.FC = () => {
                 </table>
             </Row>
             <Row className="mt-1">
-                <Col md={6} style={{height: "500px"}}>
+                <Col md={6}>
                     <RecommendationChart />
                 </Col>
                 <Col md={6}>

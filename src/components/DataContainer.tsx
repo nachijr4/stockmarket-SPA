@@ -19,7 +19,7 @@ const DataContainer:React.FC = () => {
     // }, [notification, dispatch])
 
     return (
-        <div className='data-container'>
+        <div className='data-container mt-5 mb-4 mx-lg-5'>
             {
                 notification.display &&
                 <MyAlert type={notification.type} message={notification.message} onClose={closeNotification} />

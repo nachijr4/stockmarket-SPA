@@ -11,7 +11,7 @@ interface Props {
 const MessageComponent: React.FC<Props> = (props: Props) => {
 
     return (
-        <div style={{height: '30px'}} className="text-center">
+        <div className="text-center">
             <Alert key={props.type} variant={props.type}>
                 {props.message}
             </Alert>

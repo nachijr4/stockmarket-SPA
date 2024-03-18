@@ -7,6 +7,7 @@ import Suggestions from "./Suggestions"
 import { fetchStockData, stockActions} from '../../store/StockSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigate  } from "react-router-dom";
+import SVGComponent from '../utilities/SVGComponent';
 
 interface Suggestions {
     "description": string,
@@ -97,7 +98,7 @@ const Autocomplete: React.FC = () => {
     }
 
     return (
-        <div className="col-lg-3 autocomplete">
+        <div className="col-lg-3 autocomplete d-flex  col-8 col-md-3 ">
                 <input
                     type="text"
                     value={stockSymbol}
@@ -119,8 +120,8 @@ const Autocomplete: React.FC = () => {
                         onSuggestionsBlur={onSuggestionsBlur} /> 
                         : null
                 }
-            <div className="d-inline-block search-btn hover-pointer" onClick={() => onSuggestionClick(stockSymbol)}><img src={search} ></img></div>
-            <div className="d-inline-block reset-btn hover-pointer" onClick={() => onResetClick()}><img src={reset}></img></div>
+                <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" /></div>
+                <div className="reset-btn hover-pointer " onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
         </div>
     );
 };

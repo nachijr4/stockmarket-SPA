@@ -12,3 +12,7 @@
     border-bottom: 1px #cccccc solid;
     height: 30px;
 }
+
+.sentiment table th {
+    width: 150px
+}

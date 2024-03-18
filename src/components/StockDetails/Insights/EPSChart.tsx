@@ -34,6 +34,7 @@ const EPSChart:React.FC = () => {
                 minPadding: 0.15,
                 maxPadding: 0.15,
                 endOnTick: false,
+                tickWidth: 0,
                 type: 'datetime',
                 tickPositions: data.years,
                 labels: {

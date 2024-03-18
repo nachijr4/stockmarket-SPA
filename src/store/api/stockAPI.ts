@@ -11,16 +11,17 @@ const validateResponse = (response: any) => {
     return response.json();
   }
 
-export const getCompanyProfile = (symbol: string): Promise<StockTypes.CompanyProfile> => {
-    return fetch(stockBaseUrl + `/company-profile?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.CompanyProfile>)
-    .catch(error => {
+export const getCompanyProfile = async (symbol: string): Promise<StockTypes.CompanyProfile> => {
+    try {
+        const response = await fetch(stockBaseUrl + `/company-profile?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.CompanyProfile>);
+    } catch (error) {
         throw new Error('Error while making company-profile request');
-      });
+    }
 }
 
-export const getPriceData = (symbol: string, hourly: boolean, quote?: StockTypes.Quote): Promise<StockTypes.HistoricData[]> => {
+export const getPriceData = async (symbol: string, hourly: boolean, quote?: StockTypes.Quote): Promise<StockTypes.HistoricData[]> => {
     var timespan: string = "hour"
     var currentDate = new Date();
 
@@ -47,68 +48,73 @@ export const getPriceData = (symbol: string, hourly: boolean, quote?: StockTypes
 
     const fromDate = `${year}-${month}-${day}`
 
-    return fetch(stockBaseUrl + `/historic-data?symbol=${symbol}&timespan=${timespan}&from=${fromDate}&to=${toDate}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.HistoricData[]>)
-    .catch(error => {
+    try {
+        const response = await fetch(stockBaseUrl + `/historic-data?symbol=${symbol}&timespan=${timespan}&from=${fromDate}&to=${toDate}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.HistoricData[]>);
+    } catch (error) {
         throw new Error('Error while making historic-data request');
-      });
+    }
 }
 
-export const getQuote = (symbol: string): Promise<StockTypes.Quote> => {
-    return fetch(stockBaseUrl + `/quote?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => {
-        data.data.ct = new Date().getTime()
-        data.data.marketClosed = isMarketClosed(data.data as StockTypes.Quote)
-        return data.data  as Promise<StockTypes.Quote>
-    })
-    .catch(error => {
+export const getQuote = async (symbol: string): Promise<StockTypes.Quote> => {
+    try {
+        const response = await fetch(stockBaseUrl + `/quote?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        data.data.ct = new Date().getTime();
+        data.data.marketClosed = isMarketClosed(data.data as StockTypes.Quote);
+        return await (data.data as Promise<StockTypes.Quote>);
+    } catch (error) {
         throw new Error('Error while making quote request');
-      });
+    }
 }
 
-export const getLatestNews = (symbol: string): Promise<StockTypes.LatestNews[]>=> {
-    return fetch(stockBaseUrl + `/latest-news?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.LatestNews[]>)
-    .catch(error => {
+export const getLatestNews = async (symbol: string): Promise<StockTypes.LatestNews[]>=> {
+    try {
+        const response = await fetch(stockBaseUrl + `/latest-news?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.LatestNews[]>);
+    } catch (error) {
         throw new Error('Error while making latest-news request');
-      });
+    }
 }
 
-export const getRecommendation = (symbol: string): Promise<StockTypes.Recommendation[]>=> {
-    return fetch(stockBaseUrl + `/recommendation?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.Recommendation[]>)
-    .catch(error => {
+export const getRecommendation = async (symbol: string): Promise<StockTypes.Recommendation[]>=> {
+    try {
+        const response = await fetch(stockBaseUrl + `/recommendation?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.Recommendation[]>);
+    } catch (error) {
         throw new Error('Error while making recommendation request');
-      });
+    }
 }
 
-export const getCompanySentiment = (symbol: string):  Promise<StockTypes.CompanySentiment[]>=> {
-    return fetch(stockBaseUrl + `/company-sentiment?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.CompanySentiment[]>)
-    .catch(error => {
+export const getCompanySentiment = async (symbol: string):  Promise<StockTypes.CompanySentiment[]>=> {
+    try {
+        const response = await fetch(stockBaseUrl + `/company-sentiment?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.CompanySentiment[]>);
+    } catch (error) {
         throw new Error('Error while making company-sentiment request');
-      });
+    }
 }
 
-export const getCompanyPeers = (symbol: string): Promise<StockTypes.CompanyPeer[]> => {
-    return fetch(stockBaseUrl + `/company-peers?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.CompanyPeer[]>)
-    .catch(error => {
+export const getCompanyPeers = async (symbol: string): Promise<StockTypes.CompanyPeer[]> => {
+    try {
+        const response = await fetch(stockBaseUrl + `/company-peers?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.CompanyPeer[]>);
+    } catch (error) {
         throw new Error('Error while making company-peers request');
-      });
+    }
 }
 
-export const getCompanyEarnings = (symbol: string): Promise<StockTypes.CompanyEarnings[]> => {
-    return fetch(stockBaseUrl + `/company-earnings?symbol=${symbol}`)
-    .then(validateResponse)
-    .then(data => data.data as Promise<StockTypes.CompanyEarnings[]>)
-    .catch(error => {
+export const getCompanyEarnings = async (symbol: string): Promise<StockTypes.CompanyEarnings[]> => {
+    try {
+        const response = await fetch(stockBaseUrl + `/company-earnings?symbol=${symbol}`);
+        const data = await validateResponse(response);
+        return await (data.data as Promise<StockTypes.CompanyEarnings[]>);
+    } catch (error) {
         throw new Error('Error while making company-earnings request');
-      });
+    }
 }

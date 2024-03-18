@@ -66,45 +66,52 @@ export const fetchStockData = createAsyncThunk(
     'stock/fetchBySymbol',
     async (symbol: string, thunkApi): Promise<StockFetchType> => {
         thunkApi.dispatch(stockSlice.actions.setStockTicker(symbol))
-        const promiseArray: StockPromises
-        = [    getCompanyProfile(symbol),
-                getPriceData(symbol, false),
-                getLatestNews(symbol),
-                getRecommendation(symbol),
-                getCompanySentiment(symbol),
-                getCompanyPeers(symbol),
-                getCompanyEarnings(symbol),
-        ]
+        try {
 
-        var quote: StockTypes.Quote = {
-            o: 0,
-            h: 0,
-            l: 0,
-            c: 0,
-            pc: 0,
-            d: 0,
-            dp: 0,
-            t: 0,
-            ct: 0,
-            marketClosed: false
+            const promiseArray: StockPromises
+            = [    getCompanyProfile(symbol),
+                    getPriceData(symbol, false),
+                    getLatestNews(symbol),
+                    getRecommendation(symbol),
+                    getCompanySentiment(symbol),
+                    getCompanyPeers(symbol),
+                    getCompanyEarnings(symbol),
+            ]
+
+            var quote: StockTypes.Quote = {
+                o: 0,
+                h: 0,
+                l: 0,
+                c: 0,
+                pc: 0,
+                d: 0,
+                dp: 0,
+                t: 0,
+                ct: 0,
+                marketClosed: false
+            }
+            const [companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings] = await Promise.all(promiseArray)
+            const recommendationChart = utilities.generateRecomChartData(recommendation)
+            const companyEarningsChart = utilities.generateEPSChartData(companyEarnings)
+            const yearlyPriceChart = utilities.generateYearlyPriceChart(yearlyPrice)
+            try {
+                const hourlyPricePromise = getQuote(symbol).then(data => {
+                    quote = data
+                    return getPriceData(symbol, true, quote)
+                })
+                var [hourlyPrice] = await Promise.all([hourlyPricePromise])
+            } catch {
+                var hourlyPrice = [] as StockTypes.HistoricData[]
+            }
+            const hourlyPriceChart = utilities.generateHourlyPriceChart(hourlyPrice)
+            const data: StockDataType = {quote, companyEarningsChart, companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings, recommendationChart, hourlyPrice, hourlyPriceChart, yearlyPriceChart}
+            const isMarketClosed = quote.marketClosed
+            return {data, isMarketClosed}
+        } catch {
+            thunkApi.abort();
         }
-
-        const hourlyPricePromise = getQuote(symbol).then(data => {
-            quote = data
-            return getPriceData(symbol, true, quote)
-        })
-
-        const [companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings] = await Promise.all(promiseArray)
-        const [hourlyPrice] = await Promise.all([hourlyPricePromise])
-        const recommendationChart = utilities.generateRecomChartData(recommendation)
-        const companyEarningsChart = utilities.generateEPSChartData(companyEarnings)
-        const hourlyPriceChart = utilities.generateHourlyPriceChart(hourlyPrice)
-        const yearlyPriceChart = utilities.generateYearlyPriceChart(yearlyPrice)
-        const data: StockDataType = {quote, companyEarningsChart, companyProfile, yearlyPrice, latestNews, recommendation, companySentiments, companyPeers, companyEarnings, recommendationChart, hourlyPrice, hourlyPriceChart, yearlyPriceChart}
         
-
-        const isMarketClosed = quote.marketClosed
-        return {data, isMarketClosed}
+        return {} as StockFetchType
     }
 )
 
