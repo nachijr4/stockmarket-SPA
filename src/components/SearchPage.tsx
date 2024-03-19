@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import Autocomplete from './AutoComplete/AutoComplete'
+import MyAutocomplete from './AutoComplete/AutoComplete'
 import DataContainer from './DataContainer'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Container } from 'react-bootstrap'
@@ -24,7 +24,7 @@ const SearchPage:React.FC = () => {
             <div className="App">
                 <div className="app-title my-3">STOCK SEARCH</div>
             </div>
-            <Autocomplete></Autocomplete>
+            <MyAutocomplete></MyAutocomplete>
             { stockState.isLoading? 
             <SpinnerComponent className="spinner-color"/>
              : stockState.displayStock? <DataContainer /> :

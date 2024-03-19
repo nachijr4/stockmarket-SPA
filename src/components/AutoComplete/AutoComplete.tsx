@@ -8,6 +8,7 @@ import { fetchStockData, stockActions} from '../../store/StockSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigate  } from "react-router-dom";
 import SVGComponent from '../utilities/SVGComponent';
+import { Autocomplete, TextField } from '@mui/material';
 
 interface Suggestions {
     "description": string,
@@ -18,11 +19,11 @@ interface Suggestions {
 
 var timeoutId: NodeJS.Timeout;
 
-const Autocomplete: React.FC = () => {
+const MyAutocomplete: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
     const stockSymbol = useAppSelector(state => state.stock.stockSymbol)
-    // const [inputValue, setInputValue] = useState<string>('');
+    const [inputValue, setInputValue] = useState<Suggestions>();
     const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
     const [suggestions, setSuggestions] = useState<Suggestions[]>([]);
     const [inputFocused, setInputFocused] = useState<boolean>(false);
@@ -35,7 +36,8 @@ const Autocomplete: React.FC = () => {
                 setLoading(true)
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/stocks/search?symbol=${searchValue}`);
                 if(response.status === 200) {
-                    setSuggestions(response.data.data);
+
+                    setSuggestions(response.data.data.filter((item: Suggestions) => item.symbol.indexOf(".") < 0 && item.type === "Common Stock"));
                     setShowSuggestions(true)
                 } else {
                     setShowSuggestions(false)
@@ -65,8 +67,15 @@ const Autocomplete: React.FC = () => {
     const onSuggestionsFocus = () => setSuggestionsFocused(true)
 
 
-    const onInputChange = async (e: any) => {
-        dispatch(stockActions.setStockTicker(e.target.value))
+    const onInputChange = async (e: any, value: string, reason: string) => {
+        // dispatch(stockActions.setStockTicker(e.target.value))
+
+        setInputValue({
+            description: "",
+            symbol: value ,
+            type: "",
+            displaySymbol: ""
+        })
 
         clearTimeout(timeoutId);
 
@@ -85,6 +94,18 @@ const Autocomplete: React.FC = () => {
         }
     }
 
+    const onChange =(event: React.SyntheticEvent, value: any, reason: any, details?: any) => {
+        if(reason === "selectOption") {
+            dispatch(stockActions.setStockTicker(value?.symbol))
+            setSuggestionsFocused(false)
+            if(value?.symbol && value?.symbol != "") {
+                dispatch(fetchStockData(value.symbol))
+            } else {
+                dispatch(stockActions.setErrEnterTicker())
+            }
+        }
+    }
+
     const onResetClick = () => {
         dispatch(stockActions.setStockTicker(""))
         setSuggestions([])
@@ -99,7 +120,7 @@ const Autocomplete: React.FC = () => {
 
     return (
         <div className="autocomplete d-flex  col-8 col-md-3 ">
-                <input
+                {/* <input
                     type="text"
                     value={stockSymbol}
                     onChange={onInputChange}
@@ -108,6 +129,28 @@ const Autocomplete: React.FC = () => {
                     onKeyDown={handleKeyPress}
                     placeholder="Enter stock ticker symbol"
                     className="search-input"
+                /> */}
+                <Autocomplete 
+                    value={inputValue}
+                    isOptionEqualToValue ={function(option: Suggestions, value: Suggestions): boolean {
+                        return option.symbol === value.symbol
+                    }}
+                    onInputChange={onInputChange}
+                    aria-placeholder='Enter stock ticker symbol'
+                    fullWidth={true}
+                    clearText=""
+                    clearIcon={null}
+                    popupIcon={null}
+                    loading 
+                    sx={{"& fieldset": { border: 'none' }, height: "10px", paddingRight: 0}}
+                    loadingText="Loading......"
+                    clearOnBlur={false}
+                    options={suggestions}
+                    onChange={onChange}
+                    getOptionLabel={function(option: Suggestions){ return option.symbol}}
+                    renderInput={(params) => <TextField {...params}/>}
+                    renderOption={(props, option: Suggestions) => <li {...props}>{option.displaySymbol} | {option.description}</li>}
+
                 />
                 {
                     (suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
@@ -126,4 +169,4 @@ const Autocomplete: React.FC = () => {
     );
 };
 
-export default Autocomplete;
+export default MyAutocomplete;
