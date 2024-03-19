@@ -120,7 +120,7 @@ const Autocomplete: React.FC = () => {
                         onSuggestionsBlur={onSuggestionsBlur} /> 
                         : null
                 }
-                <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" /></div>
+                <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" height="16px" width="14px"/></div>
                 <div className="reset-btn hover-pointer " onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
         </div>
     );

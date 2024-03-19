@@ -6,6 +6,7 @@ import './modal.css'
 import { Portfolio } from '../../types/PortfolioTypes';
 
 export interface Props {
+    show: boolean,
     buy: boolean,
     wallet: number,
     portfolio?: Portfolio,
@@ -57,7 +58,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
     }, [quantity, total])
 
     return (
-        <Modal show={true} onHide={handleClose}>
+        <Modal show={props.show} onHide={handleClose}>
             <Modal.Header className="flex-column">
             <div className="flex-grow-1 align-self-start" style={{height:"15px"}}>{props.stockTicker}</div>
             <div className="flex-grow-1 align-self-end" style={{fontSize: "10px", color: "blue"}}>
@@ -76,7 +77,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
                     </Row>
                     <Row>
                         <Col xs="auto" className="p-0">Money in Wallet: &nbsp;</Col>
-                        <Col xs="auto" className="p-0">${props.wallet.toFixed(2)}</Col>
+                        <Col xs="auto" className="p-0">${props?.wallet?.toFixed(2)}</Col>
                     </Row>
                     <Row className="justify-content-center">
                         <Col xs="auto" className="p-0 align-self-center">Quantity: &nbsp;</Col>

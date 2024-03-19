@@ -63,7 +63,7 @@ const PortfolioPage: React.FC = () => {
         <Container className='col-md-8 mx-auto'>
             <Row className="my-4 mb-2 mx-0">
                 <div className='p-0 watchlist-title mb-2'>My Portfolio</div>
-                <div className='p-0' style={walletStyle}>Money in Wallet: ${wallet.toFixed(2)}</div>
+                <div className='p-0' style={walletStyle}>Money in Wallet: ${wallet ? wallet.toFixed(2) : ""}</div>
             </Row>
             { isLoading ? <SpinnerComponent className="spinner-color" /> 
             :
@@ -71,7 +71,7 @@ const PortfolioPage: React.FC = () => {
                 Object.keys(portfolio).map(key =>  portfolio[key].quantity > 0 && <PortfolioCard key={key} portfolio={portfolio[key]} portfolioAction={handleModalOpen}/>) :
                 <MessageComponent type='warning' message="Currently you don't have any stock."/>
             }
-            {showModal && <StockModal {...modalData} action={modalData.buy? handleBuyStock:handleSellStock} closeModal={handleModalClose} />}
+            <StockModal {...modalData} show={showModal} action={modalData.buy? handleBuyStock:handleSellStock} closeModal={handleModalClose} />
         </Container>
     )
 }

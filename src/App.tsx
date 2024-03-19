@@ -6,8 +6,19 @@ import SearchPage from './components/SearchPage';
 import WatchlistPage from './components/WatchlistPage';
 import PortfolioPage from './components/PortfolioPage';
 import Footer from './components/Footer';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { appActions } from './store/AppSlice';
 
 function App() {
+    const notification = useAppSelector(state => state.app.notification)
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        const timeOutId = setTimeout(() => dispatch(appActions.closeNotification()), 10 * 1000)
+
+        return () => clearTimeout(timeOutId)
+    }, [notification.message])
+    
   return (
     <>
         <AppNavbar></AppNavbar>

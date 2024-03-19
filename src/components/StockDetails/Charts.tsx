@@ -22,11 +22,18 @@ const Charts: React.FC = () => {
 
     const options = {
         chart: {
-            height:  (9/16)*100 + '%',
+            // height:  (9/16)*100 + '%',
+            // height: "600px",
             backgroundColor: '#f7f7f7',
         },
         title: {
-            text: `${companyProfile?.ticker} Historical`
+            text: `${companyProfile?.ticker} Historical`,
+            style: {
+                // color: "grey",
+                fontWeight: "500",
+                fontSize: "16px",
+                fontFamily: "roboto"
+              }
         },
 
         subtitle: {
@@ -153,7 +160,7 @@ const Charts: React.FC = () => {
         }]
     }
     return (
-        <div style={{height: "500px"}}>
+        <div style={{height: "600px"}}>
           <HighchartsReact highcharts={Highcharts} options={options} />
         </div>
     )

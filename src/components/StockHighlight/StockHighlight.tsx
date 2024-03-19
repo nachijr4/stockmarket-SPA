@@ -115,7 +115,7 @@ const StockHighlight: React.FC = () => {
                     </div>
                     </Row>
             </Container>
-            {showModal && <StockModal {...modalProps}/>}
+            <StockModal {...modalProps} show={showModal}/>
         </>
         
     );

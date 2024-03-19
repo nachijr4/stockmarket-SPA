@@ -43,33 +43,33 @@ const PortfolioCard:React.FC<Props> = (props: Props) => {
                         <Row>
                             <Col md={6}>
                                 <Row>
-                                    <Col md={6} className="fw-500">Quantity:</Col>
-                                    <Col md={6} className='ff-arimo fw-500'>{props.portfolio?.quantity.toFixed(2)}</Col>
+                                    <Col className="fw-500">Quantity:</Col>
+                                    <Col className='ff-arimo fw-500'>{props.portfolio?.quantity.toFixed(2)}</Col>
                                 </Row>
                                 <Row>
-                                    <Col md={6} className="fw-500">Avg. Cost / Share:</Col>
-                                    <Col md={6} className='ff-arimo fw-500'>{(props.portfolio?.totalCost/props.portfolio?.quantity).toFixed(2)}</Col>
+                                    <Col className="fw-500">Avg. Cost / Share:</Col>
+                                    <Col className='ff-arimo fw-500'>{(props.portfolio?.totalCost/props.portfolio?.quantity).toFixed(2)}</Col>
                                 </Row>
                                 <Row>
-                                    <Col md={6} className="fw-500">Total Cost:</Col>
-                                    <Col md={6} className="ff-arimo fw-500">{props.portfolio?.totalCost.toFixed(2)}</Col>
+                                    <Col className="fw-500">Total Cost:</Col>
+                                    <Col className="ff-arimo fw-500">{props.portfolio?.totalCost.toFixed(2)}</Col>
                                 </Row>
                             </Col>
                             <Col md={6}>
                             <Row>
-                                    <Col md={6} className="fw-500">Change:</Col>
-                                    <Col md={6} className={'d-flex justify-content-start ' + colorClass}>
+                                    <Col className="fw-500">Change:</Col>
+                                    <Col className={'d-flex justify-content-start ' + colorClass}>
                                         {change !== 0 && <SVGComponent symbol={colorClass === "text-danger" ? "caratDown" : "caratUp"} />}
                                         <span className="ff-arimo fw-500">{change.toFixed(2)}</span>
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col md={6} className="fw-500">Current Price:</Col>
-                                    <Col md={6} className={"ff-arimo fw-500 " + colorClass}>{props.portfolio?.c.toFixed(2)}</Col>
+                                    <Col className="fw-500">Current Price:</Col>
+                                    <Col className={"ff-arimo fw-500 " + colorClass}>{props.portfolio?.c.toFixed(2)}</Col>
                                 </Row>
                                 <Row>
-                                    <Col md={6} className="fw-500">Market Value:</Col>
-                                    <Col md={6} className={"ff-arimo fw-500 " + colorClass}>{marketValue?.toFixed(2)}</Col>
+                                    <Col className="fw-500">Market Value:</Col>
+                                    <Col className={"ff-arimo fw-500 " + colorClass}>{marketValue?.toFixed(2)}</Col>
                                 </Row>
                             </Col>
                         </Row>

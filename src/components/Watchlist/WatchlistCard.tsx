@@ -25,7 +25,7 @@ const WatchListCard:React.FC<WatchlistQuote> = (props: WatchlistQuote) => {
     const colorClass = props.d < 0? "text-danger" : "text-success"
 
     return (
-        <Row className="mb-2 hover-pointer" onClick={() => click()}>
+        <Row className="mb-2 mx-1 hover-pointer" onClick={() => click()}>
                 <Card className="p-0">
                     <Card.Body className="py-2">
                         <Row className="pb-2">

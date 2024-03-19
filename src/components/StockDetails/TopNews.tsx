@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import TopNewsModal from '../Modals/NewsModal';
 import { useAppSelector } from '../../store/hooks';
@@ -21,18 +21,24 @@ const TopNews: React.FC = () => {
 
     const MyCard: React.FC<LatestNews> = (data: LatestNews, index: number) => {
         return (
-            <div className="col-md-6 p-2 d-inline-block " onClick={() => handleOpen(index)}>
-                <Card key={data.id} className="news-card">
-                    <Card.Body className='d-flex p-2'>
-                        <div className="news-image col-md-3 me-1">
-                            <img src={data.image} />
-                        </div>
-                        <div className='d-flex flex-grow-1 my-auto flex-column text-center col-md-9  px-2 title'>
-                            <span>{data.headline}</span>
-                        </div>
+            <Container className="col-md-6 p-2 m-0" >
+                <Card key={data.id} className=" m-0" onClick={() => handleOpen(index)}>
+                    <Card.Body className="py-2 px-1">
+                        <Container className="m-0 p-0">
+                            <Row className="m-auto">
+                                <Col md={3} className="news-image">
+                                        <img className="img-fluid h-100" src={data.image} />
+                                </Col>
+                                <Col md={9} className="d-flex">
+                                <div className='flex-grow-1 my-auto flex-column text-center col-md-9  px-2 title'>
+                                    <span>{data.headline}</span>
+                                </div>
+                                </Col>
+                            </Row>
+                        </Container>
                     </Card.Body>
                 </Card>
-            </div>
+            </Container>
         )
     }
 

@@ -18,19 +18,16 @@
 }
 
 .card-body .title span{
-    /* display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical; */
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 10px
 }
 
 .news-image {
-    width: 90px;
+    height: 55px;
 }
+
 .news-image img{
     width: 100%;
-    height: 50px;
     border-radius: 5px;
 }
