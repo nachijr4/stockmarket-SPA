@@ -78,7 +78,7 @@ const StockHighlight: React.FC = () => {
 
     return (
         <>
-            <Container>
+            <Container className="px-lg-5">
                 <Row>
                     <Col xs={4} md={4} className='text-center ps-1'>
                         <div className='d-flex align-items-center justify-content-center ticker'>

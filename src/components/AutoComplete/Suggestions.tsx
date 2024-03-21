@@ -31,8 +31,7 @@ const Suggestions: React.FC<Props> = (props) => {
                         </li>
                     : props.suggestions.length > 0 ?
                     props.suggestions.map((suggestion) => (
-                        suggestion.type === "Common Stock" && suggestion.symbol.indexOf('.') === -1 ?
-                        <Suggestion key={suggestion.symbol} suggestion={suggestion} onSuggestionClick={props.onSuggestionClick} /> : null
+                        <Suggestion key={suggestion.symbol} suggestion={suggestion} onSuggestionClick={props.onSuggestionClick} />
                     )) :
                     null
                 }

@@ -59,6 +59,22 @@ const EPSChart:React.FC = () => {
                     }
                 }
             },
+            tooltip: {
+                shared: true,
+                useHtml: true,
+                formatter: function (this: Highcharts.TooltipFormatterContextObject) {
+                    var date = Highcharts.dateFormat('%Y-%m-%d', this.x as number)
+                    var string = ""
+                    if (this.points)
+                        string =  `<b>Date: ${date}</b> <hr />
+                        <br/> 
+                        &nbsp; Surprise: ${surprise[this.x as number]}
+                        <br /><span style="color:${this.points[0].color}">\u25CF</span> Actual: ${this.points[0].y} 
+                        <br /><span style="color:${this.points[1].color}">\u25CF</span> Estimate: ${this.points?this.points[1].y:""}`
+                        
+                        return string
+                },
+            },
             series: [{
                 name: 'Actual',
                 data: data.actual

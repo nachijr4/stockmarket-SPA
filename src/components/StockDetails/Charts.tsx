@@ -23,7 +23,7 @@ const Charts: React.FC = () => {
     const options = {
         chart: {
             // height:  (9/16)*100 + '%',
-            // height: "600px",
+            height: "600px",
             backgroundColor: '#f7f7f7',
         },
         title: {
@@ -84,7 +84,7 @@ const Charts: React.FC = () => {
                 }
             },
             column: {
-                pointWidth: 3,
+                pointWidth: 5,
                 pointPlacement: "on",
                 pointInterval: 1
             }
@@ -123,7 +123,8 @@ const Charts: React.FC = () => {
                 type: 'all',
                 text: 'All',
                 title: 'View all'
-            }]
+            }],
+            selected: 2
         },
 
         series: [{

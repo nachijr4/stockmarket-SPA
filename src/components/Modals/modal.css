@@ -3,3 +3,7 @@
     border: none;
     background: white;
 }
+
+.stock-modal-width {
+    width: 450px;
+}

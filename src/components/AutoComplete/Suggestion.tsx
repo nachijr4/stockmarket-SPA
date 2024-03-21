@@ -14,7 +14,7 @@ interface Props {
 
 const Suggestion: React.FC<Props> = (props) => {
     return (
-        <li className="suggestion d-flex align-items-center" onClick={() => props.onSuggestionClick(props.suggestion.symbol)} key={props.suggestion.symbol}>{props.suggestion.displaySymbol} | {props.suggestion.description}</li>
+        <li className="suggestion hover-pointer d-flex align-items-center" onClick={() => props.onSuggestionClick(props.suggestion.symbol)} key={props.suggestion.symbol}>{props.suggestion.displaySymbol} | {props.suggestion.description}</li>
     )
 }
 

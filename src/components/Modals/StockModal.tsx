@@ -58,7 +58,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
     }, [quantity, total])
 
     return (
-        <Modal show={props.show} onHide={handleClose}>
+        <Modal show={props.show} dialogClassName="stock-modal-width" onHide={handleClose}>
             <Modal.Header className="flex-column">
             <div className="flex-grow-1 align-self-start" style={{height:"15px"}}>{props.stockTicker}</div>
             <div className="flex-grow-1 align-self-end" style={{fontSize: "10px", color: "blue"}}>

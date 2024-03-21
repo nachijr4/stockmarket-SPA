@@ -35,7 +35,8 @@ const Autocomplete: React.FC = () => {
                 setLoading(true)
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/stocks/search?symbol=${searchValue}`);
                 if(response.status === 200) {
-                    setSuggestions(response.data.data);
+                    const filteredData = response.data.data.filter((item: Suggestions) => item.type === "Common Stock" && item.symbol.indexOf(".") < 0)
+                    setSuggestions(filteredData);
                     setShowSuggestions(true)
                 } else {
                     setShowSuggestions(false)
@@ -121,7 +122,7 @@ const Autocomplete: React.FC = () => {
                         : null
                 }
                 <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" height="16px" width="14px"/></div>
-                <div className="reset-btn hover-pointer " onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
+                <div className="reset-btn hover-pointer me-2" onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
         </div>
     );
 };

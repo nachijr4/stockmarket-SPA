@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "env BUILD_PATH='../stocks-api/public' react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
