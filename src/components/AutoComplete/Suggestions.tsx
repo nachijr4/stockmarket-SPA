@@ -27,7 +27,7 @@ const Suggestions: React.FC<Props> = (props) => {
                     {
                     props.loading ?
                         <li className="suggestion d-flex align-items-center">
-                            <CircularProgress sx={{"color": "#5d5ba4", "margin-left": "5px", "width": "20px !important", "height": "20px !important"}} color="inherit" />
+                            <CircularProgress sx={{"color": "#5d5ba4", "marginLeft": "5px", "width": "20px !important", "height": "20px !important"}} color="inherit" />
                         </li>
                     : props.suggestions.length > 0 ?
                     props.suggestions.map((suggestion) => (

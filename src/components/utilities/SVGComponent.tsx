@@ -62,13 +62,31 @@ const SVGComponent: React.FC<Props> = (props: Props) => {
                                 <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                             </svg>
                         )
+                    
+                        case "twitter":
+                            return (
+                                <svg xmlns="http://www.w3.org/2000/svg" width={props.width} height={props.height} fill="none" viewBox="0 0 512 512" id="twitter"><g clip-path="url(#clip0_84_15698)">
+                                    <rect width="512" height="512" fill="#fff" rx="60"></rect>
+                                    <path fill="#000" d="M355.904 100H408.832L293.2 232.16L429.232 412H322.72L239.296 302.928L143.84 412H90.8805L214.56 270.64L84.0645 100H193.28L268.688 199.696L355.904 100ZM337.328 380.32H366.656L177.344 130.016H145.872L337.328 380.32Z"></path></g><defs><clipPath id="clip0_84_15698"><rect width="512" height="512" fill="#fff"></rect></clipPath></defs>
+                                </svg>
+                            )
+                            break
+                        
+                            case "facebook":
+                                return (
+                                    <svg fill="#1340c9" width={props.width} height={props.height} version="1.1" id="Capa_1"  viewBox="0 0 60.73 60.73" stroke="#1340c9" stroke-width="0.00060734" transform="matrix(1, 0, 0, 1, 0, 0)">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"/>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <g id="SVGRepo_iconCarrier"> <g> <path d="M57.378,0.001H3.352C1.502,0.001,0,1.5,0,3.353v54.026c0,1.853,1.502,3.354,3.352,3.354h29.086V37.214h-7.914v-9.167h7.914 v-6.76c0-7.843,4.789-12.116,11.787-12.116c3.355,0,6.232,0.251,7.071,0.36v8.198l-4.854,0.002c-3.805,0-4.539,1.809-4.539,4.462 v5.851h9.078l-1.187,9.166h-7.892v23.52h15.475c1.852,0,3.355-1.503,3.355-3.351V3.351C60.731,1.5,59.23,0.001,57.378,0.001z"/> </g> </g>
+                                    </svg>
+                                )
         }
     }
 
 
     return (
         <>
-        <div className="d-flex flex-column justify-content-center" style={{width: "fit-content"}}>
+        <div className="d-flex flex-column justify-content-center p-0" style={{width: "fit-content"}}>
             {
                 getComponent(props.symbol)                
             }

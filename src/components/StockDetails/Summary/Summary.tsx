@@ -41,7 +41,7 @@ const SummaryComponent:React.FC = () => {
                             {/* <br />  */}
                             <div className="col-12 mb-2">
                                 {
-                                    companyPeers?.map(peer => peer.indexOf(".") < 0 && <Link to={`/search/${peer}`} onClick={() => dispatch(fetchStockData(peer))}>{peer}, </Link>)
+                                    companyPeers?.map(peer => peer.indexOf(".") < 0 && <Link to={`/search/${peer}`} key={peer} onClick={() => dispatch(fetchStockData(peer))}>{peer}, </Link>)
                                 }
                             </div>
 

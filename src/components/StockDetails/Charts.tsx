@@ -8,7 +8,7 @@ import { useAppSelector } from '../../store/hooks';
 const Charts: React.FC = () => {
 
     const data = useAppSelector(state => state.stock.data.yearlyPriceChart)
-    const companyProfile = useAppSelector(state => state.stock.data.companyProfile)
+    const stockTicker = useAppSelector(state => state.stock.stockSymbol)
 
     highchartsIndicators(Highcharts);
     highchartsVolumeByPrice(Highcharts);
@@ -22,14 +22,12 @@ const Charts: React.FC = () => {
 
     const options = {
         chart: {
-            // height:  (9/16)*100 + '%',
             height: "600px",
             backgroundColor: '#f7f7f7',
         },
         title: {
-            text: `${companyProfile?.ticker} Historical`,
+            text: `${stockTicker} Historical`,
             style: {
-                // color: "grey",
                 fontWeight: "500",
                 fontSize: "16px",
                 fontFamily: "roboto"
@@ -129,8 +127,8 @@ const Charts: React.FC = () => {
 
         series: [{
             type: 'candlestick',
-            name: companyProfile?.ticker,
-            id: companyProfile?.ticker,
+            name: stockTicker,
+            id: stockTicker,
             zIndex: 2,
             data: data?.ohlc
         }, {
@@ -141,7 +139,7 @@ const Charts: React.FC = () => {
             yAxis: 1
         }, {
             type: 'vbp',
-            linkedTo: companyProfile?.ticker,
+            linkedTo: stockTicker,
             params: {
                 volumeSeriesID: 'volume'
             },
@@ -153,7 +151,7 @@ const Charts: React.FC = () => {
             }
         }, {
             type: 'sma',
-            linkedTo: companyProfile?.ticker,
+            linkedTo: stockTicker,
             zIndex: 1,
             marker: {
                 enabled: false
@@ -167,4 +165,4 @@ const Charts: React.FC = () => {
     )
 }
 
-export default Charts
+export default React.memo(Charts)

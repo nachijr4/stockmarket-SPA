@@ -23,11 +23,20 @@
     font-size: 10px
 }
 
-.news-image {
+/* .news-image {
     height: 55px;
-}
+} */
 
 .news-image img{
-    width: 100%;
+    height: 150px;
     border-radius: 5px;
+    width: 100%
 }
+
+@media(min-width: 600px) {
+    .news-image img{
+        height: 60px;
+    }
+}
+
+

@@ -79,6 +79,7 @@ const Autocomplete: React.FC = () => {
     const onSuggestionClick = (stockTicker: string) => {
         dispatch(stockActions.setStockTicker(stockTicker))
         setSuggestionsFocused(false)
+        setInputFocused(false)
         if(stockTicker && stockTicker != "") {
             dispatch(fetchStockData(stockTicker))
         } else {
@@ -109,6 +110,7 @@ const Autocomplete: React.FC = () => {
                     onKeyDown={handleKeyPress}
                     placeholder="Enter stock ticker symbol"
                     className="search-input"
+                    autoComplete="off"
                 />
                 {
                     (suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )

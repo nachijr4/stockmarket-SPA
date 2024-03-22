@@ -31,26 +31,29 @@ const Insights: React.FC = () => {
             <Row className="d-flex flex-column sentiment">
                 <div className="text-center">Insider Sentiment</div>
                 <table className="col-md-6 text-center m-auto my-2">
-                    <tr>
-                        <th>{companyName}</th>
-                        <th>MSPR</th>
-                        <th>Change</th>
-                    </tr>
-                    <tr>
-                        <td className="fw-bold">Total</td>
-                        <td>{totalMspr.toFixed(2)}</td>
-                        <td>{totalChange.toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                        <td className="fw-bold">Positive</td>
-                        <td>{totalPossitive.toFixed(2)}</td>
-                        <td>{totalPChange.toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                        <td className="fw-bold">Negative</td>
-                        <td>{totalNegative.toFixed(2)}</td>
-                        <td>{totalNChange.toFixed(2)}</td>
-                    </tr>
+                    <tbody>
+
+                        <tr>
+                            <th>{companyName}</th>
+                            <th>MSPR</th>
+                            <th>Change</th>
+                        </tr>
+                        <tr>
+                            <td className="fw-bold">Total</td>
+                            <td>{totalMspr.toFixed(2)}</td>
+                            <td>{totalChange.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td className="fw-bold">Positive</td>
+                            <td>{totalPossitive.toFixed(2)}</td>
+                            <td>{totalPChange.toFixed(2)}</td>
+                        </tr>
+                        <tr>
+                            <td className="fw-bold">Negative</td>
+                            <td>{totalNegative.toFixed(2)}</td>
+                            <td>{totalNChange.toFixed(2)}</td>
+                        </tr>
+                    </tbody>
                 </table>
             </Row>
             <Row className="mt-1">

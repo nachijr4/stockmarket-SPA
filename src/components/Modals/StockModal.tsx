@@ -21,7 +21,16 @@ const StockModal: React.FC<Props> = (props: Props) => {
     const [total, setTotal] = useState<number>(0)
     const [showError, setShowError] = useState<boolean>(false)
     const [errorMsg, setErrorMsg] = useState<string>()
-    const handleClose = () => {props.closeModal()}
+
+    const resetState = () => {
+        setQuantity(0)
+        setTotal(0)
+    }
+
+    const handleClose = () => {
+        resetState()
+        props.closeModal()
+    }
     
     const quantityChange = (value: string) => {
         setQuantity(parseInt(value))
@@ -57,15 +66,18 @@ const StockModal: React.FC<Props> = (props: Props) => {
         setShowError(false)
     }, [quantity, total])
 
+    const buttonPressAction = (quantity: number) => {
+        props.action(props.stockTicker,quantity,props.currentPrice)
+        resetState()
+    }
+
     return (
         <Modal show={props.show} dialogClassName="stock-modal-width" onHide={handleClose}>
             <Modal.Header className="flex-column">
             <div className="flex-grow-1 align-self-start" style={{height:"15px"}}>{props.stockTicker}</div>
             <div className="flex-grow-1 align-self-end" style={{fontSize: "10px", color: "blue"}}>
                 <button className='modal-close' onClick={handleClose}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>
+                    <u style={{color: "blue"}}>x</u>
                 </button>
             </div>
             </Modal.Header>
@@ -93,7 +105,7 @@ const StockModal: React.FC<Props> = (props: Props) => {
             </Modal.Body>
             <Modal.Footer className="justify-content-between">
                 <div><span>Total:&nbsp;</span><span>{total.toFixed(2)}</span></div>
-            <Button variant="success" onClick={() => !showError ? props.action(props.stockTicker, quantity, props.currentPrice) : null} disabled={showError || Number.isNaN(quantity) ||quantity === 0}>
+            <Button variant="success" onClick={() => buttonPressAction(quantity)} disabled={showError || Number.isNaN(quantity) ||quantity === 0}>
                 {props.buy ? "Buy": "Sell"}
             </Button>
             </Modal.Footer>
