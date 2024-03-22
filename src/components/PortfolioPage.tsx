@@ -24,7 +24,7 @@ const PortfolioPage: React.FC = () => {
     const [modalData, setModalData] = useState<any>({})
 
     useEffect(() => {
-        dispatch(fetchPortfolioAction())
+        dispatch(fetchPortfolioAction({showSpinner: true, resetAll: true}))
         dispatch(getWalletAmountAction())
     }, [])
 
@@ -35,12 +35,12 @@ const PortfolioPage: React.FC = () => {
 
     const handleBuyStock = (stockTicker: string, quantity: number, buyingPrice: number) => {
         if(portfolio)
-        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice, companyName: portfolio[stockTicker].companyName, getQuote: true}))
+        dispatch(purchaseStockAction({stockTicker, quantity, buyingPrice, companyName: portfolio[stockTicker].companyName, getQuote: true, reloadAll: true}))
         handleModalClose()
     }
 
     const handleSellStock = (stockTicker: string, quantity: number, sellingPrice: number) => {
-        dispatch(sellStockAction({stockTicker, quantity, sellingPrice, getQuote: true}))
+        dispatch(sellStockAction({stockTicker, quantity, sellingPrice, getQuote: true, reloadAll: true}))
         handleModalClose()
     }
 

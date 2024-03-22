@@ -25,8 +25,6 @@ export const purchaseStockAction = createAsyncThunk(
     'portfolio/purchaseStock',
     async (payload: any, thunkApi): Promise<PurchaseStockType> => {
         const portfolioData = await purchaseStock(payload.stockTicker, payload.quantity, payload.buyingPrice, payload.companyName)
-        thunkApi.dispatch(appActions.setWallet(portfolioData.user.balance))
-        thunkApi.dispatch(appActions.showNotification({message: `${payload.stockTicker} bought successfully.`, type: "success"}))
         var data: any = {...portfolioData}
         
         if(payload.getQuote) {
@@ -34,6 +32,12 @@ export const purchaseStockAction = createAsyncThunk(
             data.c = quote.c
         } else {
             data.c = 0
+        }
+        
+        thunkApi.dispatch(appActions.setWallet(portfolioData.user.balance))
+        thunkApi.dispatch(appActions.showNotification({message: `${payload.stockTicker} bought successfully.`, type: "success"}))
+        if(payload.reloadAll) {
+            thunkApi.dispatch(fetchPortfolioAction({showSpinner: false, resetAll: false}))
         }
 
         return data as PurchaseStockType
@@ -44,20 +48,24 @@ export const sellStockAction = createAsyncThunk(
     'portfolio/sellStock',
     async(payload: any, thunkApi): Promise<PurchaseStockType> => {
         const portfolioData = await sellStock(payload.stockTicker, payload.quantity, payload.sellingPrice)
-        thunkApi.dispatch(appActions.setWallet(portfolioData.user.balance))
-        thunkApi.dispatch(appActions.showNotification({message: `${payload.stockTicker} sold successfully.`, type: "danger"}))
-
+        
         var state: RootState = thunkApi.getState() as RootState
         if(state.stock.data.companyProfile?.ticker === payload.stockTicker)
-            thunkApi.dispatch(stockActions.setPortfolio(portfolioData.portfolio))
-
-        var data: any = {...portfolioData}
+        thunkApi.dispatch(stockActions.setPortfolio(portfolioData.portfolio))
     
+        var data: any = {...portfolioData}
+        
         if(payload.getQuote) {
             var quote: Quote = await getQuote(payload.stockTicker)
             data.c = quote.c
         } else {
             data.c = 0
+        }
+        
+        thunkApi.dispatch(appActions.setWallet(portfolioData.user.balance))
+        thunkApi.dispatch(appActions.showNotification({message: `${payload.stockTicker} sold successfully.`, type: "danger"}))
+        if(payload.reloadAll) {
+            thunkApi.dispatch(fetchPortfolioAction({showSpinner: false, resetAll: false}))
         }
 
         return data as PurchaseStockType
@@ -66,7 +74,7 @@ export const sellStockAction = createAsyncThunk(
 
 export const fetchPortfolioAction = createAsyncThunk(
     'portfolio/fetchPortfolio',
-    async (): Promise<{[key: string]: PortfolioQuoteType}> => {
+    async (payload: any, thunkApi): Promise<{[key: string]: PortfolioQuoteType}> => {
         const portfolios = await fetchPortfolio()
 
         const quotePromises: Promise<Quote>[] = []
@@ -97,6 +105,7 @@ const PortfolioSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
+                
         builder.addCase(purchaseStockAction.fulfilled, (state, action) => {
             state.portfolio[action.payload.portfolio.stockTicker] = {
                 stockTicker: action.payload.portfolio.stockTicker,
@@ -122,8 +131,9 @@ const PortfolioSlice = createSlice({
         })
 
         builder.addCase(fetchPortfolioAction.pending, (state, action) => {
-            state.portfolio = {}
-            state.isLoading = true
+            const inputPayload: any = action.meta.arg
+            state.portfolio = inputPayload.resetAll ? {} : state.portfolio
+            state.isLoading = inputPayload.showSpinner !== undefined? inputPayload.showSpinner : true
         })
 
         builder.addCase(fetchPortfolioAction.fulfilled, (state, action) => {
