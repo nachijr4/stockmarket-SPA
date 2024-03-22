@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Container, Row, Col, Button } from 'react-bootstrap'
-import SVGComponent from './utilities/SVGComponent'
 import '../styles/watchlist.css'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import PortfolioCard from './Portfolio/PortfolioCard'
 import { fetchPortfolioAction, purchaseStockAction, sellStockAction } from '../store/PortfolioSlice'
-import { getWalletAmountAction } from '../store/AppSlice'
+import { appActions, getWalletAmountAction } from '../store/AppSlice'
 import { SpinnerComponent } from './utilities/SpinnerComponent'
 import MessageComponent from './Message/MessageComponent'
-import StockModal, {Props as StockModalProps}  from './Modals/StockModal'
+import StockModal from './Modals/StockModal'
 import { Portfolio, PortfolioQuoteType } from '../types/PortfolioTypes'
+import MyAlert from './utilities/Alert'
 
 const PortfolioPage: React.FC = () => {
     const walletStyle = {
@@ -31,6 +31,7 @@ const PortfolioPage: React.FC = () => {
     const portfolio = useAppSelector(state => state.portfolio.portfolio)
     const isLoading = useAppSelector(state => state.portfolio.isLoading)
     const wallet = useAppSelector(state => state.app.wallet)
+    const notification = useAppSelector(state => state.app.notification)
 
     const handleBuyStock = (stockTicker: string, quantity: number, buyingPrice: number) => {
         if(portfolio)
@@ -58,10 +59,19 @@ const PortfolioPage: React.FC = () => {
         setShowModal(false)
         setModalData({})
     }
+    
+    const closeNotification = () => dispatch(appActions.closeNotification())
+
 
     return (
-        <Container className='col-md-8 mx-auto'>
-            <Row className="my-4 mb-2 mx-0">
+        <Container className='col-md-8 mx-auto pt-2'>
+            {
+                notification.display &&
+                <Row className="mt-3">
+                    <MyAlert type={notification.type} message={notification.message} onClose={closeNotification} />
+                </Row>
+            } 
+            <Row className="my-2 mb-2 mx-0">
                 <div className='p-0 watchlist-title mb-2'>My Portfolio</div>
                 <div className='p-0' style={walletStyle}>Money in Wallet: ${wallet ? wallet.toFixed(2) : ""}</div>
             </Row>
@@ -77,3 +87,7 @@ const PortfolioPage: React.FC = () => {
 }
 
 export default PortfolioPage
+
+function dispatch(arg0: any) {
+    throw new Error('Function not implemented.')
+}

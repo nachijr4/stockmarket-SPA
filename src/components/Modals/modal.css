@@ -3,3 +3,28 @@
     border: none;
     background: white;
 }
+
+.stock-modal-width,  .news-modal {
+    max-width: 450px;
+}
+
+.stock-modal-footer {
+    font-weight: 300;
+    color: grey;
+    font-size: 12px;
+}
+
+.news-title {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.news-summary {
+    max-height: 75px;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.news-modal .modal-header {
+    line-height: 1.3;
+}

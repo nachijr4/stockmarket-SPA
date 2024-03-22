@@ -1,52 +1,71 @@
 import React from 'react'
-import { Container, Row, Card } from 'react-bootstrap';
+import { Container, Row, Card, Col } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './modal.css'
 import { LatestNews } from '../../types/StockTypes';
+import SVGComponent from '../utilities/SVGComponent';
 
 interface NewsModal {
-    news: LatestNews,
+    show: boolean,
+    news: LatestNews | undefined,
     handleClose: Function
 }
 
 const TopNewsModal: React.FC<NewsModal> = (props:NewsModal) => {
-    const dateString = (new Date(props.news.datetime * 1000)).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
+    var dateString = ""
+    if(props.news)
+        var dateString = (new Date(props.news.datetime * 1000)).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
 
     return (
-        <Modal show={true} dialogClassName="modal-40w">
-            <Modal.Header className="flex-column">
-            <div className="flex-grow-1 align-self-start" style={{height:"15px"}}>{props.news.source}</div>
-            <div className="flex-grow-1 align-self-start" style={{height:"15px"}}>{dateString}</div>
-            <div className="flex-grow-1 align-self-end" style={{fontSize: "10px", color: "blue"}}>
-                <button className='modal-close' data-bs-dismiss="modal" aria-label="Close" onClick={() => props.handleClose()}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                    </svg>
-                </button>
-            </div>
+        <Modal show={props.show} dialogClassName="news-modal" >
+            <Modal.Header className="container">
+                <Row className='flex-grow-1'>
+                    <Col xs={11} className="pe-0">
+                        <div className="flex-grow-1 fs-4 fw-500 align-self-start">{props.news?.source}</div>
+                        <div className="flex-grow-1 align-self-start" style={{fontSize: "12px"}}>{dateString}</div>
+                    </Col>
+                    <Col xs={1} className="align-self-center pe-0 ps-4">
+                        <div className="flex-grow-1 align-self-end" style={{fontSize: "10px", color: "blue"}}>
+                            <button className='modal-close' data-bs-dismiss="modal" aria-label="Close" onClick={() => props.handleClose()}>
+                                <u style={{color: "blue"}}>x</u>
+                            </button>
+                        </div>
+                    </Col>
+                </Row>
             </Modal.Header>
-            <Modal.Body>
-                <Container>
-                    <Row>
-                        <div>{props.news.headline}</div>
+            <Modal.Body className="px-3">
+                <Container className="px-0">
+                    <Row className="news-title">
+                        <div>{props.news?.headline}</div>
                     </Row>
-                    <Row>
-                        <div>{props.news.summary}</div>
+                    <Row className="news-summary">
+                        <div>{props.news?.summary}</div>
                     </Row>
-                    <Row className="justify-content-center">
-                        <div>
-                            <span>For more details click <a href={props.news.url} target="_blank">here</a></span>
+                    <Row className="justify-content-center pb-5">
+                        <div className='stock-modal-footer'>
+                            <span>For more details click <a href={props.news?.url} target="_blank">here</a></span>
                         </div>
                     </Row>
                 </Container>
                 <Card>
                     <Card.Body>
-                        Share
+                        <Row>
+                            Share
+                        </Row>
+                        <Row className="p-0">
+                            <a className="d-inline p-0" href={`https://twitter.com/share?text=${props.news?.headline}&url=${props.news?.url}`} style={{width: "fit-content"}} target="_blank">
+                                <SVGComponent symbol='twitter' height="40px" width='40px' />
+                            </a>
+                                &nbsp;
+                            <a className="d-inline p-0 pt-1" href={`https://www.facebook.com/sharer/sharer.php?u=${props.news?.url}`} style={{width: "fit-content"}} target="_blank">
+                                <SVGComponent symbol='facebook' height="30px" width='30px' />
+                            </a>
+                        </Row>
                     </Card.Body>
                 </Card>
             </Modal.Body>

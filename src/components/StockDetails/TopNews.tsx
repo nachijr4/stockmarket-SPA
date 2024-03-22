@@ -21,13 +21,13 @@ const TopNews: React.FC = () => {
 
     const MyCard: React.FC<LatestNews> = (data: LatestNews, index: number) => {
         return (
-            <Container className="col-md-6 p-2 m-0" >
-                <Card key={data.id} className=" m-0" onClick={() => handleOpen(index)}>
+            <Container key={data.id} className="col-md-6 p-2 m-0" >
+                <Card key={data.id} className="m-0 hover-pointer" onClick={() => handleOpen(index)}>
                     <Card.Body className="py-2 px-1">
                         <Container className="m-0 p-0">
                             <Row className="m-auto">
                                 <Col md={3} className="news-image">
-                                        <img className="img-fluid h-100" src={data.image} />
+                                        <img className="img-fluid" src={data.image} />
                                 </Col>
                                 <Col md={9} className="d-flex">
                                 <div className='flex-grow-1 my-auto flex-column text-center col-md-9  px-2 title'>
@@ -51,7 +51,7 @@ const TopNews: React.FC = () => {
                     }
                 </Row>
             </Container>
-            {showModal && modalData && <TopNewsModal news={modalData} handleClose={handleClose}/> }
+            { <TopNewsModal show={showModal} news={modalData} handleClose={handleClose}/> }
         </>
     )
 }

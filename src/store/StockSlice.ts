@@ -175,7 +175,6 @@ const stockSlice = createSlice({
             state.data = {}
             state.displayStock = false
             state.isLoading = false
-            state.stockSymbol = ""
             state.displayNoStock = true
             state.noStockMsg = "No data found. Please enter a valid ticker"
             state.isWatchlisted = false

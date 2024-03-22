@@ -8,7 +8,7 @@ import { fetchStockData, stockActions} from '../../store/StockSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigate  } from "react-router-dom";
 import SVGComponent from '../utilities/SVGComponent';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, TextField, ThemeProvider, createTheme, makeStyles } from '@mui/material';
 
 interface Suggestions {
     "description": string,
@@ -87,6 +87,7 @@ const MyAutocomplete: React.FC = () => {
     const onSuggestionClick = (stockTicker: string) => {
         dispatch(stockActions.setStockTicker(stockTicker))
         setSuggestionsFocused(false)
+        setInputFocused(false)
         if(stockTicker && stockTicker != "") {
             dispatch(fetchStockData(stockTicker))
         } else {
@@ -118,6 +119,22 @@ const MyAutocomplete: React.FC = () => {
             onSuggestionClick(stockSymbol)
     }
 
+    const  theme = createTheme({
+        components: {
+          MuiAutocomplete: {
+            styleOverrides: {
+              inputRoot: {
+                padding: '0px !important'
+              },
+              input: {
+                width: '100%',
+                border: "none"
+              }
+            },
+          },
+        },
+      });
+
     return (
         <div className="autocomplete d-flex  col-8 col-md-3 ">
                 {/* <input
@@ -130,29 +147,36 @@ const MyAutocomplete: React.FC = () => {
                     placeholder="Enter stock ticker symbol"
                     className="search-input"
                 /> */}
-                <Autocomplete 
-                    value={inputValue}
-                    isOptionEqualToValue ={function(option: Suggestions, value: Suggestions): boolean {
-                        return option.symbol === value.symbol
-                    }}
-                    onInputChange={onInputChange}
-                    aria-placeholder='Enter stock ticker symbol'
-                    fullWidth={true}
-                    clearText=""
-                    clearIcon={null}
-                    popupIcon={null}
-                    loading 
-                    sx={{"& fieldset": { border: 'none' }, height: "10px", paddingRight: 0}}
-                    loadingText="Loading......"
-                    clearOnBlur={false}
-                    options={suggestions}
-                    onChange={onChange}
-                    getOptionLabel={function(option: Suggestions){ return option.symbol}}
-                    renderInput={(params) => <TextField {...params}/>}
-                    renderOption={(props, option: Suggestions) => <li {...props}>{option.displaySymbol} | {option.description}</li>}
+                <ThemeProvider theme={theme}>
+                    <Autocomplete 
+                        value={inputValue}
+                        isOptionEqualToValue ={function(option: Suggestions, value: Suggestions): boolean {
+                            return option.symbol === value.symbol
+                        }}
+                        onInputChange={onInputChange}
+                        aria-placeholder='Enter stock ticker symbol'
+                        fullWidth={true}
+                        clearText=""
+                        clearIcon={null}
+                        popupIcon={null}
+                        loading 
+                        sx={{"& fieldset": { border: 'none' }, paddingRight: 0}}
+                        loadingText="Loading......"
+                        clearOnBlur={false}
+                        noOptionsText=""
+                        openOnFocus={false}
+                        options={suggestions}
+                        onChange={onChange}
+                        getOptionLabel={function(option: Suggestions){ return option.symbol}}
+                        renderInput={(params) => 
+                            <div ref={params.InputProps.ref}>
+                            <input type="text" {...params.inputProps} />
+                          </div>}
+                        renderOption={(props, option: Suggestions) => <li {...props}>{option.displaySymbol} | {option.description}</li>}
 
-                />
-                {
+                    />
+                </ThemeProvider>
+                {/* {
                     (suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
                     || loading)?
                     <Suggestions 
@@ -162,9 +186,9 @@ const MyAutocomplete: React.FC = () => {
                         onSuggestionsFocus={onSuggestionsFocus}
                         onSuggestionsBlur={onSuggestionsBlur} /> 
                         : null
-                }
+                } */}
                 <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" height="16px" width="14px"/></div>
-                <div className="reset-btn hover-pointer " onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
+                <div className="reset-btn hover-pointer me-2" onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>
         </div>
     );
 };
