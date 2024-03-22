@@ -12,7 +12,8 @@ interface SuggestionsType {
 
 interface Props {
     suggestions: SuggestionsType[],
-    loading: boolean
+    loading: boolean,
+    display: boolean,
     onSuggestionsFocus: Function,
     onSuggestionsBlur: Function,
     onSuggestionClick: Function
@@ -21,9 +22,11 @@ interface Props {
 
 const Suggestions: React.FC<Props> = (props) => {
     return (
-        <ul className="suggestions" onMouseOver={() => props.onSuggestionsFocus()}
-                onMouseLeave={() => props.onSuggestionsBlur()}
-                onBlur={() => props.onSuggestionsBlur()}>
+        <ul className={"suggestions " + (props.display ? "": "d-none")} 
+                // onMouseOver={() => props.onSuggestionsFocus()}
+                // onMouseLeave={() => props.onSuggestionsBlur()}
+                // onBlur={() => props.onSuggestionsBlur()}
+                >
                     {
                     props.loading ?
                         <li className="suggestion d-flex align-items-center">

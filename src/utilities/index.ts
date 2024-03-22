@@ -60,7 +60,7 @@ export const generateYearlyPriceChart = (data: StockTypes.HistoricData[]): Stock
 export const isMarketClosed = (quote: StockTypes.Quote): boolean => {
     if(quote !== undefined) {
         const marketTime = new Date(quote.t * 1000)
-        const currentTime = new Date(quote.ct * 1000)
+        const currentTime = new Date(quote.ct)
         return ((currentTime.getTime() - marketTime.getTime()) / 1000 > 300)
     }
 

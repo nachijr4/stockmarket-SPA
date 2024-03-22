@@ -97,7 +97,7 @@ const StockHighlight: React.FC = () => {
                             }
                         </div>
                     </Col>
-                    <Col xs={4}className="text-center pe-0 d-flex align-items-center flex-column">
+                    <Col xs={4}className="text-center d-flex align-items-center flex-column">
                         <div className="mb-auto">
                             <img className="company-logo img-fluid" height="75px" src={companyProfile?.logo}/>
                         </div>

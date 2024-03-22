@@ -100,7 +100,8 @@ const Autocomplete: React.FC = () => {
     }
 
     return (
-        <div className="autocomplete d-flex  col-8 col-md-3 ">
+        <div className="autocomplete d-flex  col-8 col-md-3 "
+        >
                 <input
                     type="text"
                     value={stockSymbol}
@@ -111,17 +112,20 @@ const Autocomplete: React.FC = () => {
                     placeholder="Enter stock ticker symbol"
                     className="search-input"
                     autoComplete="off"
+                    
                 />
                 {
-                    (suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
-                    || loading)?
                     <Suggestions 
                         suggestions={suggestions} 
+                        // display={(suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
+                        //     || loading)}
+                        display={(inputFocused) && ((showSuggestions && suggestions.length > 0 )
+                            || loading)}
                         loading={loading}
                         onSuggestionClick={onSuggestionClick} 
                         onSuggestionsFocus={onSuggestionsFocus}
                         onSuggestionsBlur={onSuggestionsBlur} /> 
-                        : null
+                        // : null
                 }
                 <div className="search-btn hover-pointer pt-1 me-2" onClick={() => onSuggestionClick(stockSymbol)}><SVGComponent symbol="search" height="16px" width="14px"/></div>
                 <div className="reset-btn hover-pointer me-2" onClick={() => onResetClick()}><SVGComponent symbol="cross" /></div>

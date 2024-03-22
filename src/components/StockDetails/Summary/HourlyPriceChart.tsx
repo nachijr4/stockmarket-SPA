@@ -50,7 +50,7 @@ const HourlyPriceChart: React.FC = () => {
           {
             data: data,
             name: companyProfile?.ticker,
-            color: isMarketClosed ? "red" : "",
+            color: isMarketClosed ? "red" : "green",
             tooltip: {
                 valueDecimals: 2
             },

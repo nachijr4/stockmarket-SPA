@@ -63,6 +63,7 @@ export const getQuote = async (symbol: string): Promise<StockTypes.Quote> => {
         const data = await validateResponse(response);
         data.data.ct = new Date().getTime();
         data.data.marketClosed = isMarketClosed(data.data as StockTypes.Quote);
+        console.log("The quote data is: ", data.data)
         return await (data.data as Promise<StockTypes.Quote>);
     } catch (error) {
         throw new Error('Error while making quote request');

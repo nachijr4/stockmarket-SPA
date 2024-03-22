@@ -48,7 +48,7 @@
     z-index: 10;
     background-color: white;
     top: 22px;
-    width: 80%;
+    width: 75%;
     box-shadow: -1px 6px 15px 0px rgba(0, 0, 0, 0.3);
 }
 
@@ -57,11 +57,11 @@
 }
 
 .suggestion {
-    height: 35px;
+    min-height: 35px;
     padding-left: 13px;
     font-size: 13px;
-    white-space: nowrap;
+    /* white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis; */
     max-width: 100%;
 }
