@@ -12,13 +12,17 @@ const Charts: React.FC = () => {
 
     highchartsIndicators(Highcharts);
     highchartsVolumeByPrice(Highcharts);
-    var groupingUnits: Object =  [[
+    var groupingUnits: Object =  [
+        ['day', [1]],
+        [
         'week',
         [1]
-    ], [
+    ], 
+    [
         'month',
-        [1, 2, 3, 4, 6]
-    ]];
+        [1]
+    ]
+];
 
     const options = {
         chart: {
@@ -37,8 +41,12 @@ const Charts: React.FC = () => {
         subtitle: {
             text: 'With SMA and Volume by Price technical indicators'
         },
+        scrollBar: {
+            enabled: true
+        },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            ordinal: true,
         },
         yAxis: [{
             opposite: true,
@@ -82,9 +90,13 @@ const Charts: React.FC = () => {
                 }
             },
             column: {
-                pointWidth: 5,
-                pointPlacement: "on",
-                pointInterval: 1
+                dataGrouping: {
+                    enabled: true,
+                    units: groupingUnits
+                },
+                // pointWidth: 3,
+                // pointPlacement: "on",
+                // pointInterval: 1,
             }
         },
         navigator: {
@@ -160,7 +172,7 @@ const Charts: React.FC = () => {
     }
     return (
         <div style={{height: "600px"}}>
-          <HighchartsReact highcharts={Highcharts} options={options} />
+          {data && <HighchartsReact highcharts={Highcharts} options={options} />}
         </div>
     )
 }

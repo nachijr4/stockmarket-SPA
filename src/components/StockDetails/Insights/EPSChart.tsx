@@ -30,7 +30,7 @@ const EPSChart:React.FC = () => {
                 align: 'center'
             },
             xAxis: {
-                reversed: false,
+                reversed: true,
                 minPadding: 0.15,
                 maxPadding: 0.15,
                 endOnTick: false,
