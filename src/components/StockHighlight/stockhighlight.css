@@ -10,8 +10,8 @@
 }
 
 .company-logo {
-    width: 75px;
-    height: 75px;
+    /* max-width: 75px; */
+    max-height: 75px;
 }
 
 .exchange {
@@ -24,19 +24,19 @@
 }
 
 .stock-price .price {
-    font-size: 27px;
+    font-size: 1.7rem;
     font-weight: 500;
     height: 41px;
     line-height: 1.7;
 }
 
 .stock-price .change {
-    font-size: 15px;
+    font-size: 1.2rem;
 }
 
 .stock-price .timestamp {
-    font-size: 10px;
-    font-weight: 300;
+    font-size: 11px;
+    font-weight: 400;
 }
 
 .market-state {

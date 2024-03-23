@@ -75,6 +75,23 @@ const EPSChart:React.FC = () => {
                         return string
                 },
             },
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 350
+                    },
+                    chartOptions: {
+                        xAxis: {
+                            labels: {
+                                rotation: -45,
+                                style: {
+                                    fontSize: '13px'
+                                }
+                            }
+                        }
+                    }
+                }]
+            },
             series: [{
                 name: 'Actual',
                 data: data.actual

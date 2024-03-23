@@ -12,7 +12,6 @@ const RecommendationChart: React.FC = () => {
         chart: {
             type: 'column',
             backgroundColor: "#f4f1f1",
-            // height: (9 / 16 * 100) + '%',
             spacingBottom: 50
         },
         credits: {
@@ -39,7 +38,28 @@ const RecommendationChart: React.FC = () => {
             align: "center",
             verticalAlign: 'bottom',
             floating: true,
-            shadow: false
+            shadow: false,
+            // width: 300
+        },
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 350
+                },
+                chartOptions: {
+                    legend: {
+                        x: 45,
+                        y: 40,
+                        align: "center",
+                        verticalAlign: 'bottom',
+                        width: 300
+                        // Adjust other legend properties for small charts
+                    },
+                    chart: {
+                        marginBottom: 110,
+                    },
+                }
+            }]
         },
         tooltip: {
             headerFormat: '<b>{point.x}</b><br/>',

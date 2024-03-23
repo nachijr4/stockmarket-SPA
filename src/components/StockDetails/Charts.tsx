@@ -41,9 +41,9 @@ const Charts: React.FC = () => {
         subtitle: {
             text: 'With SMA and Volume by Price technical indicators'
         },
-        scrollBar: {
-            enabled: true
-        },
+        // scrollBar: {
+        //     enabled: true
+        // },
         xAxis: {
             type: 'datetime',
             ordinal: true,
@@ -94,9 +94,7 @@ const Charts: React.FC = () => {
                     enabled: true,
                     units: groupingUnits
                 },
-                // pointWidth: 3,
-                // pointPlacement: "on",
-                // pointInterval: 1,
+                groupPadding: 0.1,
             }
         },
         navigator: {

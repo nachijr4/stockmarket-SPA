@@ -44,7 +44,14 @@ const HourlyPriceChart: React.FC = () => {
           }
         },
         tooltip: {
-            format: `<span style="color:{color}">\u25CF</span> {series.name}: <b>{y} </b> `
+            split: true,
+            formatter: function (this: Highcharts.TooltipFormatterContextObject) {
+                const date = Highcharts.dateFormat('%A, %e %b, %H:%M', this.x as number);
+                return [
+                    `<span>${date}</span>`,
+                    `<span style="color:${this.color}">\u25CF</span> ${this.series.name}: <b>${this.y} </b> `
+                ]
+            }
         },
         series: [
           {

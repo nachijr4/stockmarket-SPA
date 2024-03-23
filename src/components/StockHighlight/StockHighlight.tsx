@@ -78,9 +78,9 @@ const StockHighlight: React.FC = () => {
 
     return (
         <>
-            <Container className="px-lg-5">
+            <Container className="px-lg-5 px-0">    
                 <Row>
-                    <Col xs={4} md={4} className='text-center ps-1'>
+                    <Col xs={5} md={4} className='text-center ps-1'>
                         <div className='d-flex align-items-center justify-content-center ticker'>
                             <span>{companyProfile?.ticker}</span> 
                             <div className="d-flex ml-2 pb-1" onClick={() => toggleWatchlist()}>
@@ -97,12 +97,12 @@ const StockHighlight: React.FC = () => {
                             }
                         </div>
                     </Col>
-                    <Col xs={4}className="text-center d-flex align-items-center flex-column">
+                    <Col xs={2} md={4} className="text-center px-0 px-s-1 d-flex align-items-center flex-column">
                         <div className="mb-auto">
                             <img className="company-logo img-fluid" height="75px" src={companyProfile?.logo}/>
                         </div>
                     </Col>
-                    <Col xs={4} className="text-center pe-1">
+                    <Col xs={5} md={4}  className="text-center pe-1 ps-1">
                         {quote  && <DynamicStockPrice {...quote}/>}
                     </Col>
                 </Row>

@@ -39,7 +39,7 @@ const WatchListCard:React.FC<WatchlistQuote> = (props: WatchlistQuote) => {
                         </Row>
                         <Row className="pb-2">
                             <Col>{props.companyName}</Col>
-                            <Col className='d-flex'>
+                            <Col className='d-flex' style={{height: 'fit-content'}}>
                                 <SVGComponent height='10px' width='10px' symbol={props.d >= 0 ? "caratUp" : "caratDown"}/>
                                 <span className={'watchlist-change ps-1 ' + colorClass}>{props.d.toFixed(2)} ({props.dp.toFixed(2)}%)</span>
                             </Col>
