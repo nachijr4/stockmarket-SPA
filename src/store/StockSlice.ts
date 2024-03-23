@@ -188,8 +188,16 @@ const stockSlice = createSlice({
 
         // Watchlist actions
 
+        builder.addCase(checkWatchlistedAction.pending, (state, action) => {
+            state.isWatchlisted = false
+        })
+
         builder.addCase(checkWatchlistedAction.fulfilled, (state, action) => {
             state.isWatchlisted = action.payload
+        })
+        
+        builder.addCase(checkWatchlistedAction.rejected, (state, action) => {
+            state.isWatchlisted = false
         })
 
         builder.addCase(addWatchlistAction.fulfilled, (state, action) => {
@@ -197,7 +205,6 @@ const stockSlice = createSlice({
         })
 
         builder.addCase(addWatchlistAction.rejected, (state, action) => {
-            
             state.isWatchlisted = false
         })
 
