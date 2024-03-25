@@ -22,9 +22,9 @@ const TopNews: React.FC = () => {
     const MyCard: React.FC<LatestNews> = (data: LatestNews, index: number) => {
         return (
             <Container key={data.id} className="col-md-6 p-2 m-0" >
-                <Card key={data.id} className="m-0 hover-pointer" onClick={() => handleOpen(index)}>
+                <Card key={data.id} className="m-0 hover-pointer h-100" onClick={() => handleOpen(index)}>
                     <Card.Body className="py-2 px-1">
-                        <Container className="m-0 p-0">
+                        <Container className="m-0 p-0 h-100 d-flex">
                             <Row className="m-auto">
                                 <Col md={3} className="news-image">
                                         <img className="img-fluid" src={data.image} />

@@ -73,7 +73,7 @@ const Autocomplete: React.FC = () => {
 
         timeoutId = setTimeout(() => {
             loadSuggestions(e.target.value);
-        }, 500); // 300 ms delay
+        }, 400); // 300 ms delay
     }
 
     const onSuggestionClick = (stockTicker: string) => {

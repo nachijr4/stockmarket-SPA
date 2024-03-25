@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import Highcharts from 'highcharts/highstock';
-// import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useAppSelector } from "../../../store/hooks";
 
 const HourlyPriceChart: React.FC = () => {
     const companyProfile = useAppSelector(state=> state.stock.data.companyProfile)
     const data = useAppSelector(state => state.stock.data.hourlyPriceChart)
-    const isMarketClosed = useAppSelector(state => state.stock.isMarketClosed)
+    // const isMarketClosed = useAppSelector(state => state.stock.isMarketClosed)
+    const quote = useAppSelector(state=> state.stock.data.quote)
+
+    var chartColor
+    if(quote)
+        chartColor = quote.d > 0 ? "green" : quote.d < 0 ? "red" : ""
 
     var options
     if(data)
@@ -57,7 +61,7 @@ const HourlyPriceChart: React.FC = () => {
           {
             data: data,
             name: companyProfile?.ticker,
-            color: isMarketClosed ? "red" : "green",
+            color: chartColor,
             tooltip: {
                 valueDecimals: 2
             },

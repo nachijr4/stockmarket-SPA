@@ -71,7 +71,12 @@ const StockHighlight: React.FC = () => {
             dispatch(getWalletAmountAction())
         }
 
-        const intervalId = setInterval(() => dispatch(fetchQuoteData("")), 15 * 1000)
+        var intervalId:NodeJS.Timer
+        if(!quote?.marketClosed)
+            intervalId = setInterval(() => {
+                if(!quote?.marketClosed)
+                    dispatch(fetchQuoteData(""))
+            }, 15 * 1000)
 
         return () => clearInterval(intervalId)
     }, [])

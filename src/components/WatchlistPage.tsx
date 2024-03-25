@@ -9,6 +9,7 @@ import { SpinnerComponent } from './utilities/SpinnerComponent'
 import MessageComponent from './Message/MessageComponent'
 import { fetchStockData } from '../store/StockSlice'
 import { useNavigate } from 'react-router-dom'
+import { appActions } from '../store/AppSlice'
 
 const WatchlistPage: React.FC = () => {
     const navigate = useNavigate()
@@ -20,6 +21,7 @@ const WatchlistPage: React.FC = () => {
 
     useEffect(() => {
         dispatch(fetchWatchlistAction())
+        dispatch(appActions.closeNotification())
     }, [])
 
     return (

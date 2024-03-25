@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import '../styles/watchlist.css'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import PortfolioCard from './Portfolio/PortfolioCard'
@@ -24,6 +24,7 @@ const PortfolioPage: React.FC = () => {
     const [modalData, setModalData] = useState<any>({})
 
     useEffect(() => {
+        dispatch(appActions.closeNotification())
         dispatch(fetchPortfolioAction({showSpinner: true, resetAll: true}))
         dispatch(getWalletAmountAction())
     }, [])

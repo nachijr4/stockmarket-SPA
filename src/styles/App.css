@@ -77,8 +77,13 @@ body {
 }
 
 .nav-link {
+    color: #ffffffb5 !important;
+}
+
+.nav-link:hover {
     color: white !important;
 }
+
 .navbar-brand {
     margin-left: 1rem;
     font-size: 18px;
@@ -87,6 +92,14 @@ body {
 .navlink-selected {
     border: 1px solid white;
     border-radius: 15px;
+    color: white !important;
+
+}
+
+.active {
+    border: 1px solid white;
+    border-radius: 15px;
+    color: white !important;
 }
 
 .navbar-brand, .nav-link, .navbar-brand:hover,  .nav-link:hover{

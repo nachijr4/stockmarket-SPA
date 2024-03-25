@@ -22,7 +22,7 @@ const WatchListCard:React.FC<WatchlistQuote> = (props: WatchlistQuote) => {
         navigate(`/search/${props.stockTicker}`)
     }
 
-    const colorClass = props.d < 0? "text-danger" : "text-success"
+    const colorClass = props.d < 0? "text-danger" : props.d > 0 ? "text-success" : ""
 
     return (
         <Row className="mb-2 mx-1 hover-pointer" onClick={() => click()}>
@@ -40,7 +40,7 @@ const WatchListCard:React.FC<WatchlistQuote> = (props: WatchlistQuote) => {
                         <Row className="pb-2">
                             <Col>{props.companyName}</Col>
                             <Col className='d-flex' style={{height: 'fit-content'}}>
-                                <SVGComponent height='10px' width='10px' symbol={props.d >= 0 ? "caratUp" : "caratDown"}/>
+                                {props.d !==0 && <SVGComponent height='10px' width='10px' symbol={props.d > 0 ? "caratUp" : "caratDown"}/>}
                                 <span className={'watchlist-change ps-1 ' + colorClass}>{props.d.toFixed(2)} ({props.dp.toFixed(2)}%)</span>
                             </Col>
                         </Row>

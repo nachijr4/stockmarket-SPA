@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react'
 import Autocomplete from './AutoComplete/AutoComplete'
 import DataContainer from './DataContainer'
-import { useAppSelector } from '../store/hooks'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { Container } from 'react-bootstrap'
 import { SpinnerComponent } from './utilities/SpinnerComponent'
 import MessageComponent from './Message/MessageComponent'
 import { useNavigate } from 'react-router-dom'
+import { appActions } from '../store/AppSlice'
 
 const SearchPage:React.FC = () => {
     const navigate = useNavigate()
     const stockState = useAppSelector( state => state.stock)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(appActions.closeNotification())
+    }, [])
 
     useEffect(() => {
         if(stockState.data.companyProfile && stockState.data.companyProfile.ticker !== "")
