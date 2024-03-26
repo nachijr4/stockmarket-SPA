@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import TopNewsModal from '../Modals/NewsModal';
 import { useAppSelector } from '../../store/hooks';
 import { LatestNews } from '../../types/StockTypes';
+import MessageComponent from '../Message/MessageComponent';
 
 
 
@@ -49,6 +50,11 @@ const TopNews: React.FC = () => {
                     {
                         latestNews?.map((news, index) => MyCard(news, index))
                     }
+                    {latestNews && latestNews.length === 0 && 
+                    <Container className="mx-auto mt-5 col-md-8">
+                        <MessageComponent message="No news available." type="warning" />
+                    </Container>
+                 }
                 </Row>
             </Container>
             { <TopNewsModal show={showModal} news={modalData} handleClose={handleClose}/> }

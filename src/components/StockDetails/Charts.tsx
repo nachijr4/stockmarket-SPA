@@ -188,6 +188,9 @@ const Charts: React.FC = () => {
                 xAxis: {
                     type: 'datetime',
                     ordinal: true,
+                    crosshair: {
+                        width: 1
+                    }
                 },
                 yAxis: [{
                     opposite: true,
@@ -221,12 +224,13 @@ const Charts: React.FC = () => {
                 }],
         
                 tooltip: {
-                    split: true
+                    split: true,
                 },
         
                 plotOptions: {
                     series: {
                         dataGrouping: {
+                            enabled: true,
                             units: groupingUnits
                         }
                     },
@@ -235,14 +239,14 @@ const Charts: React.FC = () => {
                             enabled: true,
                             units: groupingUnits
                         },
-                        groupPadding: 0.1,
+                        // groupPadding: 0.1,
                     }
                 },
                 navigator: {
                     enabled: true
                 },
                 rangeSelector: {
-                    allButtonsEnabled: true,
+                    // allButtonsEnabled: true,
                     enabled: true,
                     buttons: [{
                         type: 'month',

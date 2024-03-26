@@ -15,12 +15,14 @@
 }
 
 .news-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
+    max-height: 50px;
+    overflow: hidden;
 }
 
 .news-summary {
-    max-height: 75px;
+    max-height: 72px;
     overflow: hidden;
     font-size: 12px;
 }

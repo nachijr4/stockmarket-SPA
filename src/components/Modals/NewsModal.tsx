@@ -22,7 +22,7 @@ const TopNewsModal: React.FC<NewsModal> = (props:NewsModal) => {
         })
 
     return (
-        <Modal show={props.show} dialogClassName="news-modal" >
+        <Modal show={props.show} onHide={() => props.handleClose()} dialogClassName="news-modal" >
             <Modal.Header className="container">
                 <Row className='flex-grow-1'>
                     <Col xs={11} className="pe-0">
@@ -53,8 +53,8 @@ const TopNewsModal: React.FC<NewsModal> = (props:NewsModal) => {
                     </Row>
                 </Container>
                 <Card>
-                    <Card.Body>
-                        <Row>
+                    <Card.Body className="py-2">
+                        <Row className="ps-2">
                             Share
                         </Row>
                         <Row className="p-0">

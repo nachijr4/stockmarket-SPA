@@ -103,7 +103,8 @@ export const getCompanyPeers = async (symbol: string): Promise<StockTypes.Compan
     try {
         const response = await fetch(stockBaseUrl + `/company-peers?symbol=${symbol}`);
         const data = await validateResponse(response);
-        return await (data.data as Promise<StockTypes.CompanyPeer[]>);
+        const uniquePeers: any = [...new Set(data.data)]
+        return await (uniquePeers as Promise<StockTypes.CompanyPeer[]>);
     } catch (error) {
         throw new Error('Error while making company-peers request');
     }
