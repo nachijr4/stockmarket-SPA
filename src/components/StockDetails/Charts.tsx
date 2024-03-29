@@ -245,6 +245,9 @@ const Charts: React.FC = () => {
                 navigator: {
                     enabled: true
                 },
+                scrollbar: {
+                    enabled: true
+                },
                 rangeSelector: {
                     // allButtonsEnabled: true,
                     enabled: true,

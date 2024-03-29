@@ -7,6 +7,10 @@
     color: #707cb9 !important;
 }
 
+.MuiButtonBase-root:hover {
+    background-color: #707cb914;
+}
+
 .news-card {
     /* background-color: rgba(128, 128, 128, 0.842); */
 }

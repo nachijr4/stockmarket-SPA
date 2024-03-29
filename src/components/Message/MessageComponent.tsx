@@ -12,7 +12,7 @@ const MessageComponent: React.FC<Props> = (props: Props) => {
 
     return (
         <div className="text-center">
-            <Alert key={props.type} variant={props.type}>
+            <Alert key={props.type} className="alert-nonclose" variant={props.type}>
                 {props.message}
             </Alert>
         </div>

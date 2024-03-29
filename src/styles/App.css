@@ -77,7 +77,7 @@ body {
 }
 
 .nav-link {
-    color: #ffffffa6 !important;
+    color: #ffffff8a !important;
 }
 
 .nav-link:hover {
@@ -106,7 +106,7 @@ body {
     color: white;
 }
 
-.alert {
+.alert-nonclose {
     line-height: 30px;
     padding: 7px 15px;
   }

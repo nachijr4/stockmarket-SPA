@@ -30,7 +30,7 @@ const RecommendationChart: React.FC = () => {
                 text: '#Analysis'
             },
             stackLabels: {
-                enabled: true
+                enabled: false
             }
         },
         legend: {
@@ -53,7 +53,6 @@ const RecommendationChart: React.FC = () => {
                         align: "center",
                         verticalAlign: 'bottom',
                         width: 300
-                        // Adjust other legend properties for small charts
                     },
                     chart: {
                         marginBottom: 110,

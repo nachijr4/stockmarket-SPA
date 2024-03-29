@@ -30,12 +30,12 @@ const SummaryComponent:React.FC = () => {
                     </Row>
 
                     <Row>
-                        <div style={{fontSize: "14px"}} className="text-center col-12 mt-2 mt-md-5 px-5">
-                            <div className='fs-5'><u>About the company</u></div>
-                            <div  className="mb-2 mb-md-0"><span className="fw-bold  text-end">IPO Start Date:&nbsp;</span> <span className="text-start ">{companyProfile?.ipo.substring(0,10)}</span></div>
-                            <div className="mb-2 mb-md-0"><span className="fw-bold  text-end">Industry:&nbsp;</span> <span className="text-start ">{companyProfile?.finnhubIndustry}</span></div>
-                            <div className="mb-2 mb-md-0"><span className="fw-bold  text-end">Webpage:&nbsp;</span> <span className="text-start "><a href={companyProfile?.weburl} target="_blank">{companyProfile?.weburl}</a></span></div>
-                            <div className="text-center fw-bold col-12 mb-2 mb-md-0">
+                        <div style={{fontSize: "14px"}} className="text-center col-12 mt-2 mt-md-4 px-5">
+                            <div className='fs-5 mb-md-3'><u>About the company</u></div>
+                            <div  className="mb-2 mb-md-1"><span className="fw-bold  text-end">IPO Start Date:&nbsp;</span> <span className="text-start ">{companyProfile?.ipo.substring(0,10)}</span></div>
+                            <div className="mb-2 mb-md-1"><span className="fw-bold  text-end">Industry:&nbsp;</span> <span className="text-start ">{companyProfile?.finnhubIndustry}</span></div>
+                            <div className="mb-2 mb-md-1"><span className="fw-bold  text-end">Webpage:&nbsp;</span> <span className="text-start "><a href={companyProfile?.weburl} target="_blank">{companyProfile?.weburl}</a></span></div>
+                            <div className="text-center fw-bold col-12 mb-2 mb-md-1">
                                     Company Peers: 
                             </div>
                             {/* <br />  */}

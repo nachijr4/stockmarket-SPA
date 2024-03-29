@@ -65,10 +65,10 @@ const PortfolioPage: React.FC = () => {
 
 
     return (
-        <Container className='col-md-8 mx-auto pt-2'>
+        <Container className='col-md-8 mx-auto pt-2 pb-2'>
             {
                 notification.display &&
-                <Row className="mt-3">
+                <Row className="mt-3 mx-1 mx-md-0">
                     <MyAlert type={notification.type} message={notification.message} onClose={closeNotification} />
                 </Row>
             } 

@@ -21,6 +21,9 @@ const HourlyPriceChart: React.FC = () => {
           backgroundColor: "#f7f7f7",
           height: "300px"
         },
+        time: {
+            timezone: "America/Los_Angeles"
+        },
         legend: {
             enabled: false
         },
@@ -37,6 +40,9 @@ const HourlyPriceChart: React.FC = () => {
         },
         xAxis: {
             type: 'datetime',
+            crosshair: {
+                width: 1
+            }
         },
         title: {
           text: `${companyProfile?.ticker} Hourly Price Variation`,
@@ -49,13 +55,13 @@ const HourlyPriceChart: React.FC = () => {
         },
         tooltip: {
             split: true,
-            formatter: function (this: Highcharts.TooltipFormatterContextObject) {
-                const date = Highcharts.dateFormat('%A, %e %b, %H:%M', this.x as number);
-                return [
-                    `<span>${date}</span>`,
-                    `<span style="color:${this.color}">\u25CF</span> ${this.series.name}: <b>${this.y} </b> `
-                ]
-            }
+            // formatter: function (this: Highcharts.TooltipFormatterContextObject) {
+            //     const date = Highcharts.dateFormat('%A, %e %b, %H:%M', this.x as number);
+            //     return [
+            //         `<span>${date}</span>`,
+            //         `<span style="color:${this.color}">\u25CF</span> ${this.series.name}: <b>${this.y} </b> `
+            //     ]
+            // }
         },
         series: [
           {

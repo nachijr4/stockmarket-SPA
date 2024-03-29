@@ -25,7 +25,7 @@ const WatchlistPage: React.FC = () => {
     }, [])
 
     return (
-        <Container className='col-md-8 mx-auto'>
+        <Container className='col-md-8 mx-auto pb-2'>
             <Row className="my-4 mx-0">
                 <div className='p-0 watchlist-title'>My Watchlist</div>
             </Row>
