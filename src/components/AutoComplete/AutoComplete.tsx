@@ -67,6 +67,7 @@ const Autocomplete: React.FC = () => {
 
     const onInputChange = async (e: any) => {
         dispatch(stockActions.setStockTicker(e.target.value))
+        setInputFocused(true)
         clearTimeout(timeoutId);
 
         timeoutId = setTimeout(() => {
