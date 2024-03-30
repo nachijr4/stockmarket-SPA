@@ -72,13 +72,17 @@ const Autocomplete: React.FC = () => {
 
         timeoutId = setTimeout(() => {
             loadSuggestions(e.target.value);
-        }, 400); // 300 ms delay
+        }, 400);
     }
 
     const onSuggestionClick = (stockTicker: string) => {
         dispatch(stockActions.setStockTicker(stockTicker))
-        setSuggestionsFocused(false)
-        setInputFocused(false)
+        setTimeout(() => {
+            setSuggestionsFocused(false)
+            setInputFocused(false)
+        }, 1000)
+        // setSuggestionsFocused(false)
+        // setInputFocused(false)
         if(stockTicker && stockTicker != "") {
             dispatch(fetchStockData(stockTicker))
         } else {
@@ -116,10 +120,10 @@ const Autocomplete: React.FC = () => {
                 {
                     <Suggestions 
                         suggestions={suggestions} 
-                        // display={(suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
-                        //     || loading)}
-                        display={(inputFocused) && ((showSuggestions && suggestions.length > 0 )
+                        display={(suggestionsFocused || inputFocused) && ((showSuggestions && suggestions.length > 0 )
                             || loading)}
+                        // display={(inputFocused) && ((showSuggestions && suggestions.length > 0 )
+                        //     || loading)}
                         loading={loading}
                         onSuggestionClick={onSuggestionClick} 
                         onSuggestionsFocus={onSuggestionsFocus}

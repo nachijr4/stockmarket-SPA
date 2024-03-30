@@ -23,9 +23,9 @@ interface Props {
 const Suggestions: React.FC<Props> = (props) => {
     return (
         <ul className={"suggestions " + (props.display ? "": "d-none")} 
-                // onMouseOver={() => props.onSuggestionsFocus()}
-                // onMouseLeave={() => props.onSuggestionsBlur()}
-                // onBlur={() => props.onSuggestionsBlur()}
+                onMouseOver={() => props.onSuggestionsFocus()}
+                onMouseLeave={() => props.onSuggestionsBlur()}
+                onBlur={() => props.onSuggestionsBlur()}
                 >
                     {
                     props.loading ?
