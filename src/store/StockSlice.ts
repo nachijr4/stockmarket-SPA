@@ -70,12 +70,12 @@ export const fetchStockData = createAsyncThunk(
 
             const promiseArray: StockPromises
             = [    getCompanyProfile(symbol),
-                    getPriceData(symbol, false),
-                    getLatestNews(symbol),
-                    getRecommendation(symbol),
-                    getCompanySentiment(symbol),
-                    getCompanyPeers(symbol),
-                    getCompanyEarnings(symbol),
+                    getPriceData(symbol, false).catch(e => []),
+                    getLatestNews(symbol).catch(e => []),
+                    getRecommendation(symbol).catch(e => []),
+                    getCompanySentiment(symbol).catch(e => []),
+                    getCompanyPeers(symbol).catch(e => []),
+                    getCompanyEarnings(symbol).catch(e => []),
             ]
 
             var quote: StockTypes.Quote = {

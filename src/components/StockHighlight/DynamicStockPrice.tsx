@@ -5,7 +5,7 @@ import { formatDate } from "../../utilities"
 
 const DynamicStockPrice: React.FC<Quote> = (props: Quote) => {
     const colorClass = props.d > 0? "text-success": props.d < 0 ? "text-danger" : ""
-    const caratClass =  props.d >= 0? "caratUp" : "caratDown"
+    const caratClass =  props.d > 0? "caratUp" : props.d < 0 ? "caratDown" : ""
     return (
         <div className="stock-price">
             <div className={colorClass}>
