@@ -104,7 +104,7 @@ const Autocomplete: React.FC = () => {
     }
 
     return (
-        <div className="autocomplete d-flex  col-8 col-lg-3 col-md-6"
+        <div className="autocomplete d-flex  col-8 col-lg-4 col-md-6"
         >
                 <input
                     type="text"
