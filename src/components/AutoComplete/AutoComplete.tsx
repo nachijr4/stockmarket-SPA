@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import "./autocomplete.css"
-import search from "../../images/search.svg"
-import reset from "../../images/x.svg"
 import Suggestions from "./Suggestions"
 import { fetchStockData, stockActions} from '../../store/StockSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -32,6 +30,7 @@ const Autocomplete: React.FC = () => {
     const loadSuggestions = async (searchValue: string) => {
         if (searchValue) {
             try {
+                setShowSuggestions(true)
                 setLoading(true)
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/stocks/search?symbol=${searchValue}`);
                 if(response.status === 200) {
@@ -68,7 +67,6 @@ const Autocomplete: React.FC = () => {
 
     const onInputChange = async (e: any) => {
         dispatch(stockActions.setStockTicker(e.target.value))
-
         clearTimeout(timeoutId);
 
         timeoutId = setTimeout(() => {
