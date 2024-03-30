@@ -16,10 +16,11 @@ interface Props {
 const Suggestion: React.FC<Props> = (props) => {
     return (
         <ListItemButton
-        className="suggestion hover-pointer d-flex align-items-center" onMouseDownCapture={() => props.onSuggestionClick(props.suggestion.symbol)} 
+        className="suggestion pr-0 hover-pointer d-flex align-items-center" onMouseDownCapture={() => props.onSuggestionClick(props.suggestion.symbol)} 
         onClickCapture={() => props.onSuggestionClick(props.suggestion.symbol)} key={props.suggestion.symbol}
         >
-        <ListItemText primary={`${props.suggestion.displaySymbol} | ${props.suggestion.description}`} />
+        <ListItemText sx={{fontSize: '13px !important'}}
+         primary={`${props.suggestion.displaySymbol} | ${props.suggestion.description}`} />
       </ListItemButton>
         // <li className="suggestion hover-pointer d-flex align-items-center" onMouseDownCapture={() => props.onSuggestionClick(props.suggestion.symbol)} onClickCapture={() => props.onSuggestionClick(props.suggestion.symbol)} key={props.suggestion.symbol}>{props.suggestion.displaySymbol} | {props.suggestion.description}</li>
     )

@@ -77,17 +77,18 @@ const Autocomplete: React.FC = () => {
 
     const onSuggestionClick = (stockTicker: string) => {
         dispatch(stockActions.setStockTicker(stockTicker))
+        setSuggestionsFocused(true)
         setTimeout(() => {
             setSuggestionsFocused(false)
             setInputFocused(false)
-        }, 1000)
+            if(stockTicker && stockTicker != "") {
+                dispatch(fetchStockData(stockTicker))
+            } else {
+                dispatch(stockActions.setErrEnterTicker())
+            }
+        }, 400)
         // setSuggestionsFocused(false)
         // setInputFocused(false)
-        if(stockTicker && stockTicker != "") {
-            dispatch(fetchStockData(stockTicker))
-        } else {
-            dispatch(stockActions.setErrEnterTicker())
-        }
     }
 
     const onResetClick = () => {
@@ -103,7 +104,7 @@ const Autocomplete: React.FC = () => {
     }
 
     return (
-        <div className="autocomplete d-flex  col-8 col-md-3 "
+        <div className="autocomplete d-flex  col-8 col-lg-3 col-md-6"
         >
                 <input
                     type="text"

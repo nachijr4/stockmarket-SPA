@@ -8,7 +8,13 @@ const HourlyPriceChart: React.FC = () => {
     const data = useAppSelector(state => state.stock.data.hourlyPriceChart)
     // const isMarketClosed = useAppSelector(state => state.stock.isMarketClosed)
     const quote = useAppSelector(state=> state.stock.data.quote)
+    // var chartData:any = []
 
+    // useEffect(() => {
+    //     if(data)
+    //         chartData = [...data]
+    //     console.log("The data ", chartData)
+    // }, [data])
     var chartColor
     if(quote)
         chartColor = quote.d > 0 ? "green" : quote.d < 0 ? "red" : ""
@@ -65,7 +71,7 @@ const HourlyPriceChart: React.FC = () => {
         },
         series: [
           {
-            data: data,
+            data: data ? [...data]: [],
             name: companyProfile?.ticker,
             color: chartColor,
             tooltip: {

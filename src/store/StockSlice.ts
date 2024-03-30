@@ -164,11 +164,11 @@ const stockSlice = createSlice({
         builder.addCase(fetchStockData.fulfilled, (state, action) => {
             state.stockSymbol = action.payload.data.companyProfile ? action.payload.data.companyProfile.ticker : ""
             state.data = action.payload.data
-            state.isLoading = false
             state.displayStock = true
             state.displayNoStock = false
             state.noStockMsg = ""
             state.isMarketClosed = action.payload.isMarketClosed
+            state.isLoading = false
         })
 
         builder.addCase(fetchStockData.rejected, (state, action) => {
